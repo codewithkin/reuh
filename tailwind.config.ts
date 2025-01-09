@@ -12,7 +12,7 @@ export default {
         dullLight: "#c4c4c4",
         dullDark: "#9a9a9a",
         primaryLight: "#008BF8",
-        priamryDark: "#011936",
+        primaryDark: "#011936",
         secondaryDark: "#96E072",
         secondaryLight: "#71FF2D",
         danger: "#EF233C",
