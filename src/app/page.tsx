@@ -1,13 +1,19 @@
-import { Metadata } from "next";
+import { auth } from "@/auth"
+import { redirect } from "next/navigation"
 
-export const metadata: Metadata = {
-  title: "Dashboard"
-}
+export default async function Home() {
+  const session = await auth()
 
-export default function Dashboard () {
-  return (
-    <section>
-      <h2>Dashboard</h2>
-    </section>
-  )
+  if(!session) {
+    return redirect("/auth")
+  }
+
+  if(!session?.user?.email) {
+    return redirect("/auth")
+  }
+
+  if (session) {
+    return redirect(`/${session?.user?.email}`)
+  }
+  return redirect("/auth")
 }
