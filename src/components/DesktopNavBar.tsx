@@ -33,17 +33,17 @@ export default function NavBar () {
                         </Link>
                     </li>
                     <li>
-                        <Link className={`${url === `/dashboard/tools`} hover:text-primaryLight transition duration-300`} href="/">
+                        <Link className={`${url === `/dashboard/tools` && "text-primaryLight"} hover:text-primaryLight transition duration-300`} href="/dashboard/tools">
                             <PencilRuler />
                         </Link>
                     </li>
                     <li>
-                        <Link className={`${url === `/dashboard/profile`} hover:text-primaryLight transition duration-300`} href="/">
+                        <Link className={`${url === `/dashboard/profile` && "text-primaryLight"} hover:text-primaryLight transition duration-300`} href="/dashboard/settings">
                             <User />
                         </Link>
                     </li>
                     <li>
-                        <Link className={`${url === `/dashboard/settings`} hover:text-primaryLight transition duration-300`} href="/">
+                        <Link className={`${url === `/dashboard/settings` && "text-primaryLight"} hover:text-primaryLight transition duration-300`} href="/dashboard/settings">
                             <Settings />
                         </Link>
                     </li>
