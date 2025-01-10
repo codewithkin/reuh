@@ -13,7 +13,7 @@ export default async function Home() {
   }
 
   if (session) {
-    return redirect(`/${session?.user?.email}`)
+    return redirect(`/dashboard`)
   }
   return redirect("/auth")
 }
