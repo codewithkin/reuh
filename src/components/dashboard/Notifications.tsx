@@ -26,52 +26,52 @@ import { Bell, CheckCheck } from "lucide-react";
 import { notification } from "@/types/notification";
 import Notification from "./Notification";
 
-export function Notifications() {
-  const dummyNotifications: notification[] = [
-    {
-      title: "Your resume has been updated",
-      read: false,
-      createdOn: new Date(),
-      success: true,
-      resource: "Resume"
-    },
-    {
-      title: "Your cover letter has been updated",
-      read: false,
-      createdOn: new Date(),
-      success: true,
-      resource: "Cover Letter"
-    },
-    {
-      title: "Your headshot has been updated",
-      read: false,
-      createdOn: new Date(),
-      success: true,
-      resource: "Headshot"
-    },
-    {
-      title: "Your resume has been updated",
-      read: false,
-      createdOn: new Date(),
-      success: true,
-      resource: "Resume"
-    },
-    {
-      title: "Your resume has been updated",
-      read: false,
-      createdOn: new Date(),
-      success: true,
-      resource: "Resume"
-    },
-    {
-      title: "Your headshot has been updated",
-      read: false,
-      createdOn: new Date(),
-      success: true,
-      resource: "Headshot"
-    },
-  ];
+export const dummyNotifications: notification[] = [
+  {
+    title: "Your resume has been updated",
+    read: false,
+    createdOn: new Date(),
+    success: true,
+    resource: "Resume"
+  },
+  {
+    title: "Your cover letter has been updated",
+    read: false,
+    createdOn: new Date(),
+    success: true,
+    resource: "Cover Letter"
+  },
+  {
+    title: "Your headshot has been updated",
+    read: false,
+    createdOn: new Date(),
+    success: true,
+    resource: "Headshot"
+  },
+  {
+    title: "Your resume has been updated",
+    read: false,
+    createdOn: new Date(),
+    success: true,
+    resource: "Resume"
+  },
+  {
+    title: "Your resume has been updated",
+    read: false,
+    createdOn: new Date(),
+    success: true,
+    resource: "Resume"
+  },
+  {
+    title: "Your headshot has been updated",
+    read: false,
+    createdOn: new Date(),
+    success: true,
+    resource: "Headshot"
+  },
+];
 
+export function Notifications() {
   const [open, setOpen] = React.useState(false)
   const isDesktop = useMediaQuery("(min-width: 768px)")
  

@@ -5,7 +5,7 @@ export default function CurrentPlan () {
     const plan  = "Basic"
 
     return (
-        <article className="rounded-2xl mx-2 my-8 md:mx-0 w-full md:w-1/4 p-4 bg-gradient-to-t text-white font-semibold from-primaryLight to-primaryDark">
+        <article className="rounded-2xl mx-2 my-4 md:mx-0 w-full md:w-1/4 p-4 bg-gradient-to-t text-white font-semibold from-primaryLight to-primaryDark">
             {/* Metadata */}
             <article className="flex justify-between items-center">
                 <h2 className="text-xl font-semibold">Current Plan</h2>
