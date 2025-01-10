@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className="md:px-2 w-screen md:py-4 md:h-screen flex-col-reverse flex md:flex-row"
+        className="md:px-2 items-center md:items-start w-screen md:py-4 md:h-screen flex-col-reverse flex md:flex-row"
       >
         <NavBar />
         <MobileNavBar />

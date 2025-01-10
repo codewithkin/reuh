@@ -1,15 +1,11 @@
-import { signIn } from "@/auth";
-import { Button } from "@/components/ui/button";
+import SubmitButton from "@/components/auth/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Metadata } from "next";
+import { signInWithEmail } from "@/lib/actions";
 import Image from "next/image";
 
-export const metadata: Metadata = {
-    title: "Sign in"
-}
-
 export default function Auth() {
+    
     return (
         <section
         className="w-screen h-screen flex flex-col justify-center items-center"
@@ -21,13 +17,7 @@ export default function Auth() {
             }}
         >
             <form
-            action={
-                async (formData: FormData) => {
-                    "use server";
-
-                    await signIn("resend", formData);
-                }
-            }
+            action={signInWithEmail}
             className="bg-white rounded-3xl p-8 w-fit"
             >
                 {/* Branding */}
@@ -51,6 +41,7 @@ export default function Auth() {
                     <article className="flex flex-col gap-1 my-2">
                         <Label htmlFor="email">Email</Label>
                         <Input 
+                            required
                             name="email"
                             aria-label="Your email"
                             placeholder="johndoe@gmail.com"
@@ -58,9 +49,7 @@ export default function Auth() {
                     </article>
 
                     {/* Sign in with email btn */}
-                    <Button type="submit" className="text-white font-medium flex justify-center items-center bg-gradient-to-r from-purple-600 to-primaryLight rounded-xl  py-2 px-16">
-                        Sign in with email
-                    </Button>
+                    <SubmitButton />
                 </article>
             </form>
         </section>

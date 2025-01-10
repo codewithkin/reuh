@@ -11,5 +11,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   pages: {
     signIn: "/auth",
+    verifyRequest: "/auth/verify-request",
   }
 })
