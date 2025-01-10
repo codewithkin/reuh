@@ -1,7 +1,17 @@
+"use client";
+import { ChartBar, DoorOpen, PencilRuler, Settings, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "./ui/button";
+import { usePathname } from "next/navigation";
 
 export default function NavBar () {
+    // Get the current url
+    const url: string = usePathname();
+
+    // Get the user's email
+    const email = "kinzinzombe07@gmail.com"
+
     return (
         <nav className="hidden py-4 md:flex flex-col justify-between items-center md:h-full px-2 md:py-8 bg-primaryDark rounded-full md:rounded-2xl">
             <article className="flex flex-col gap-8">
@@ -15,24 +25,34 @@ export default function NavBar () {
                 />
 
                 {/* Links */}
-                <ul className="text-dullLight flex md:flex-col justify-center items-center">
+                <ul className="text-dullLight flex md:flex-col gap-4 justify-center items-center">
                     <li>
-                        <Link href="/">H</Link>
+                        <Link className={`${url === `/${email}`} hover:text-primaryLight transition duration-300`} href="/">
+                            <ChartBar />
+                        </Link>
                     </li>
                     <li>
-                        <Link href="/">H</Link>
+                        <Link className={`${url === `/${email}/tools`} hover:text-primaryLight transition duration-300`} href="/">
+                            <PencilRuler />
+                        </Link>
                     </li>
                     <li>
-                        <Link href="/">H</Link>
+                        <Link className={`${url === `/${email}/profile`} hover:text-primaryLight transition duration-300`} href="/">
+                            <User />
+                        </Link>
                     </li>
                     <li>
-                        <Link href="/">H</Link>
+                        <Link className={`${url === `/${email}/settings`} hover:text-primaryLight transition duration-300`} href="/">
+                            <Settings />
+                        </Link>
                     </li>
                 </ul>
             </article>
 
             {/* Logout */}
-            <p className="md:flex hidden flex-col items-center justify-center text-dullLight">T</p>
+            <Button color="secondary" className="text-dullLight">
+                <DoorOpen />
+            </Button>
         </nav>
     )
 }
