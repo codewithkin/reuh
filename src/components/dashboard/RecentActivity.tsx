@@ -3,6 +3,7 @@ import { notification } from "@/types/notification";
 import { dummyNotifications } from "./Notifications";
 import { Button } from "../ui/button";
 import { MoreHorizontal } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function RecentActivity () {
     return (
@@ -15,7 +16,14 @@ export default function RecentActivity () {
                         const {title, success, createdOn, read, resource } = notification;
 
                         return (
-                            <article className="flex justify-between items-center">
+                            <motion.article 
+                            key={createdOn.toDateString()}
+                            initial={{
+                                x: -100
+                            }}
+                            animate={{
+                                x: 1
+                            }} className="flex justify-between items-center">
                                 <article className="flex gap-2 items-center">
                                     <article className="w-4 h-4 rounded-full bg-secondaryLight"></article>
                                     <article className="flex flex-col">
@@ -31,7 +39,7 @@ export default function RecentActivity () {
                                 <Button color="secondary" size="icon">
                                     <MoreHorizontal />
                                 </Button>
-                            </article>
+                            </motion.article>
                         )
                     })
                 }
