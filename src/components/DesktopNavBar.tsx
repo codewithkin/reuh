@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
+import { Logout } from "@/lib/actions";
 
 export default function NavBar () {
     // Get the current url
@@ -50,7 +51,7 @@ export default function NavBar () {
             </article>
 
             {/* Logout */}
-            <Button color="secondary" className="text-dullLight">
+            <Button onClick={Logout} color="secondary" className="text-dullLight">
                 <DoorOpen />
             </Button>
         </nav>
