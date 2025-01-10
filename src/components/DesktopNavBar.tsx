@@ -27,22 +27,22 @@ export default function NavBar () {
                 {/* Links */}
                 <ul className="text-dullLight flex md:flex-col gap-4 justify-center items-center">
                     <li>
-                        <Link className={`${url === `/${email}`} hover:text-primaryLight transition duration-300`} href="/">
+                        <Link className={`${url === `/dashboard` && "text-primaryLight"} hover:text-primaryLight transition duration-300`} href="/dashboard">
                             <ChartBar />
                         </Link>
                     </li>
                     <li>
-                        <Link className={`${url === `/${email}/tools`} hover:text-primaryLight transition duration-300`} href="/">
+                        <Link className={`${url === `/dashboard/tools`} hover:text-primaryLight transition duration-300`} href="/">
                             <PencilRuler />
                         </Link>
                     </li>
                     <li>
-                        <Link className={`${url === `/${email}/profile`} hover:text-primaryLight transition duration-300`} href="/">
+                        <Link className={`${url === `/dashboard/profile`} hover:text-primaryLight transition duration-300`} href="/">
                             <User />
                         </Link>
                     </li>
                     <li>
-                        <Link className={`${url === `/${email}/settings`} hover:text-primaryLight transition duration-300`} href="/">
+                        <Link className={`${url === `/dashboard/settings`} hover:text-primaryLight transition duration-300`} href="/">
                             <Settings />
                         </Link>
                     </li>
