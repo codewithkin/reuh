@@ -1,6 +1,7 @@
 import NewWhat from "@/components/dashboard/NewWhat";
+import { Notifications } from "@/components/dashboard/Notifications";
 import { Button } from "@/components/ui/button";
-import { ArrowUpFromDotIcon, Bell } from "lucide-react";
+import { ArrowUpFromDotIcon } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -21,9 +22,7 @@ export default function Dashboard () {
         {/* Buttons and Avatar */}
         <article className="flex gap-4 items-center">
           <article className="flex gap-2 items-center">
-            <Button size="icon" color="primary">
-              <Bell size={25} />
-            </Button>
+            <Notifications />
             <Button className="flex hover:bg-secondary items-center gap-2 bg-secondaryLight hover:shadow-xl transition duration-300 shadow-md font-semibold text-primaryDark px-4 py-2 rounded-xl">
               Upgrade Plan
               <ArrowUpFromDotIcon size={18} />
