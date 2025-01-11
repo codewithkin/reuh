@@ -1,24 +1,22 @@
+import { signIn } from "@/auth";
 import SubmitButton from "@/components/auth/SubmitButton";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signInWithEmail } from "@/lib/actions";
 import Image from "next/image";
 
 export default function Auth() {
     
     return (
         <section
-        className="w-screen h-screen flex flex-col justify-center items-center"
-            style={{
-                backgroundImage: "url(/images/design/suit.jpg)",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat"
-            }}
+        className="w-screen bg-gradient-to-tr from-purple-600 to-primaryLight h-screen flex flex-col justify-center items-center"
         >
             <form
-            action={signInWithEmail}
-            className="bg-white rounded-3xl p-8 w-fit"
+            action={async (formData: FormData) => {
+                "use server";
+
+                await signIn("resend", formData);
+            }}
+            className="bg-white shadow-xl rounded-3xl p-8 w-fit"
             >
                 {/* Branding */}
                 <article className="flex flex-col justify-center items-center mb-4 text-center">

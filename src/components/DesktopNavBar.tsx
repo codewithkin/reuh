@@ -72,7 +72,7 @@ export default function NavBar () {
             </article>
 
             {/* Logout */}
-            <Button onClick={Logout} color="secondary" className="text-dullLight">
+            <Button onClick={() => Logout()} color="secondary" className="text-dullLight">
                 <DoorOpen />
             </Button>
         </nav>
