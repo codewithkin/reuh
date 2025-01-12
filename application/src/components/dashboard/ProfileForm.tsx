@@ -7,24 +7,25 @@ import { useState, useEffect, Suspense } from "react";
 import { getData, updateUser } from "@/lib/actions";
 import SubmitButton from "./profile/SubmitButton";
 import { useFormState } from "react-dom";
-import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 export default function ProfileForm () {
-    const email = "kinzinzombe07@gmail.com";
-    const occupation = "Software Engineer";
-    const joinedOn = "5 January 2025";
-    const name = "Kin Leon Zinzombe";
-    
+    // Track the user's data
     const [me, setMe] = useState<any>(null);
+
+    // Track if the user has made changes to the form
     const [somethingChanged, setSomethingChanged] = useState(false);
 
+    // Create a default state for the form
     const defaultState = {
         success: false,
         message: ""
     }
 
+    // Create a state for the form
     const [state, changeUser] = useFormState(updateUser, defaultState);
 
+    // Get the user's data on initial load / render
     useEffect(() => {
         const getUserData = async () => {
             const me = await getData("user");
@@ -65,16 +66,24 @@ export default function ProfileForm () {
                             />
                 </article>
 
+                {
+                    state.success && state.message.length > 0 &&
+                    <motion.article initial={{
+                        y: -100,
+                        opacity: 0
+                    }} animate={{
+                        y: 0,
+                        opacity: 1
+                    }} transition={{
+                        duration: 0.5
+                    }} className="rounded-xl my-2 py-2 px-4 flex justify-center items-center bg-secondaryLight text-primaryDark font-semibold text-md">
+                        {state.message}
+                    </motion.article>
+                }
             <DialogFooter className="pt-2">
                     <DrawerClose asChild>
                         <Button variant="outline">Close</Button>
                     </DrawerClose>
-                        {
-                            state.success && state.message.length > 0 &&
-                            <article className="rounded-xl bg-green-400 text-white font-semibold text-md">
-                                {state.message}
-                            </article>
-                        }
                         <SubmitButton somethingChanged={somethingChanged} />
                     </DialogFooter>
             </form>
