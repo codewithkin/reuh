@@ -3,6 +3,7 @@ import CurrentPlan from "@/components/dashboard/CurrentPlan";
 import NewWhat from "@/components/dashboard/NewWhat";
 import { Notifications } from "@/components/dashboard/Notifications";
 import RecentActivity from "@/components/dashboard/RecentActivity";
+import StatCards from "@/components/dashboard/StatCards";
 import { Button } from "@/components/ui/button";
 import { getData } from "@/lib/actions";
 import { notification } from "@/types/notification";
@@ -15,12 +16,43 @@ export const metadata: Metadata = {
 }
 
 export default async function Dashboard () {
+  const resources = [];
+
   // Get the user's data
   const notifications: any = await getData("notification") || [];
   const coverLetters: any = await getData("coverLetter") || [];
   const headshots: any = await getData("headshot") || [];
   const interviewQuestions: any = await getData("interviewQuestion") || [];
+  const resumes: any = await getData("resume") || [];
   const user = await getData("user");
+
+  resources.push({
+    title: "Cover Letters",
+    count: coverLetters.length,
+    percentage: 0,
+    color: "bg-secondaryLight",
+    link: "/cover-letters"
+  }, {
+    title: "Headshots",
+    count: headshots.length,
+    percentage: 0,
+    color: "bg-secondaryLight",
+    link: "/headshots"
+  }, {
+    title: "Interview Questions",
+    count: interviewQuestions.length,
+    percentage: 0,
+    color: "bg-secondaryLight",
+    link: "/interview-questions"
+  }, {
+    title: "Resumes",
+    count: resumes.length,
+    percentage: 0,
+    color: "bg-secondaryLight",
+    link: "/resumes"
+  });
+
+  console.log("My resources", resources);
 
   if(!user) {
     throw new Error("You're not signed in")
@@ -52,61 +84,7 @@ export default async function Dashboard () {
         </article>
       </article>
 
-      {/* Cards */}
-      <article className="flex w-full px-4 md:px-0 my-4 flex-col md:flex-row gap-4 items-center my-4">
-        <article className="mx-8 md:mx-0 w-full even:bg-primaryLight rounded-2xl p-4 text-white font-semibold bg-dullDark flex flex-col gap-4">
-            <h2 className="text-xl">Resumes Generated</h2>
-
-            <h3 className="text-4xl">
-              0
-            </h3>
-
-            <article className="flex gap-2 justify-center items-center">
-              <article className="hover:cursor-pointer transition duration-400 hover:bg-primaryDark flex shadow shadow-xl items-center gap-2 bg-secondaryLight px-8 py-2 rounded-full text-center justify-center items-center">40% <ArrowUp /></article>
-              <Link className="bg-primaryDark rounded-full text-white py-2 px-4" href="/">New</Link>
-            </article>
-        </article>
-
-        <article className="mx-8 md:mx-0 w-full even:bg-primaryLight rounded-2xl p-4 text-white font-semibold bg-dullDark flex flex-col gap-4">
-            <h2 className="text-xl">Cover Letters</h2>
-
-            <h3 className="text-4xl">
-              0
-            </h3>
-
-            <article className="flex gap-2 justify-center items-center">
-              <article className="hover:cursor-pointer transition duration-400 hover:bg-primaryDark flex shadow shadow-xl items-center gap-2 bg-tertiary px-8 py-2 rounded-full text-center justify-center items-center">40% <ArrowUp /></article>
-              <Link className="bg-primaryDark rounded-full text-white py-2 px-4" href="/">New</Link>
-             
-            </article>
-        </article>
-
-        <article className="mx-8 md:mx-0 w-full even:bg-primaryLight rounded-2xl p-4 text-white font-semibold bg-dullDark flex flex-col gap-4">
-            <h2 className="text-xl">Headshots</h2>
-
-            <h3 className="text-4xl">
-              0
-            </h3>
-
-            <article className="flex gap-2 justify-center items-center">
-              <article className="hover:cursor-pointer transition duration-400 hover:bg-primaryDark flex shadow shadow-xl items-center gap-2 bg-secondaryLight px-8 py-2 rounded-full text-center justify-center items-center">40% <ArrowUp /></article>
-              <Link className="bg-primaryDark rounded-full text-white py-2 px-4" href="/">New</Link>
-             
-            </article>
-        </article>
-        <article className="mx-8 md:mx-0 w-full even:bg-primaryLight rounded-2xl p-4 text-white font-semibold bg-dullDark flex flex-col gap-4">
-            <h2 className="text-xl">Test Interviews</h2>
-
-            <h3 className="text-4xl">
-              0
-            </h3>
-
-            <article className="flex justify-center gap-2 items-center">
-              <article className="hover:cursor-pointer transition duration-400 hover:bg-primaryDark flex shadow shadow-xl items-center gap-2 bg-danger px-8 py-2 rounded-full text-center justify-center items-center">40% <ArrowUp /></article>
-              <Link className="bg-primaryDark rounded-full text-white py-2 px-4" href="/">New</Link>
-            </article>
-        </article>
-      </article>
+      <StatCards resources={resources} />
 
       {/* Current plan data */}
       <CurrentPlan />
