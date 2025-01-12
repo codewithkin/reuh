@@ -13,14 +13,9 @@ export default function VerifyRequest() {
             x: 0
         }}
         className="w-screen bg-gradient-to-tr from-purple-600 to-primaryLight h-screen flex flex-col justify-center items-center"
-        style={{
-            backgroundImage: "url(/images/design/suit.jpg)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat"
-        }}>
+        >
             <form
-            className="bg-white rounded-3xl p-8 w-fit flex flex-col justify-center items-center text-center"
+            className="bg-white shadow-xl rounded-3xl p-8 w-fit flex flex-col justify-center items-center text-center"
             >
                 <MailCheck size={75} className="text-primaryDark" />
                 <h2 className="text-3xl font-bold">Success !</h2>
