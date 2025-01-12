@@ -1,36 +1,42 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# .env inside all directories
+**/env
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
+# .env.local inside all directories
+**/env.local
 
-# testing
-/coverage
+# .env.development inside all directories
+**/env.development
 
-# next.js
-/.next/
-/out/
+# .env.production inside all directories
+**/env.production
 
-# production
-/build
+# .env.test inside all directories
+**/env.test
 
-# misc
-.DS_Store
-*.pem
+# .env.staging inside all directories
+**/env.staging
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# .env.development.local inside all directories
+**/env.development.local
 
-# local env files
-.env*.local
+# .env.production.local inside all directories
+**/env.production.local
 
-# vercel
-.vercel
+# .env.test.local inside all directories
+**/env.test.local
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# .env.staging.local inside all directories
+**/env.staging.local
+
+# Node modules inside all directories
+**/node_modules
+
+# Next.js build
+**/build
+
+# Prisma
+**/prisma
+
+# Auth
+**/auth.config.ts
+**/auth.ts
