@@ -26,52 +26,7 @@ import { Bell, CheckCheck } from "lucide-react";
 import { notification } from "@/types/notification";
 import Notification from "./Notification";
 
-export const dummyNotifications: notification[] = [
-  {
-    title: "Your resume has been updated",
-    read: false,
-    createdOn: new Date(),
-    success: true,
-    resource: "Resume"
-  },
-  {
-    title: "Your cover letter has been updated",
-    read: false,
-    createdOn: new Date(),
-    success: true,
-    resource: "Cover Letter"
-  },
-  {
-    title: "Your headshot has been updated",
-    read: false,
-    createdOn: new Date(),
-    success: true,
-    resource: "Headshot"
-  },
-  {
-    title: "Your resume has been updated",
-    read: false,
-    createdOn: new Date(),
-    success: true,
-    resource: "Resume"
-  },
-  {
-    title: "Your resume has been updated",
-    read: false,
-    createdOn: new Date(),
-    success: true,
-    resource: "Resume"
-  },
-  {
-    title: "Your headshot has been updated",
-    read: false,
-    createdOn: new Date(),
-    success: true,
-    resource: "Headshot"
-  },
-];
-
-export function Notifications() {
+export function Notifications({ notifications }: { notifications: notification[] }) {
   const [open, setOpen] = React.useState(false)
   const isDesktop = useMediaQuery("(min-width: 768px)")
  
@@ -92,7 +47,7 @@ export function Notifications() {
           </DialogHeader>
           <article className="my-2 flex flex-col gap-2">
             {
-              dummyNotifications.length > 0 ? dummyNotifications.map((notification: notification) => {
+              notifications.length > 0 ? notifications.map((notification: notification) => {
                 const { title, createdOn, success, resource, read } = notification
 
                 return (
@@ -106,7 +61,7 @@ export function Notifications() {
           <DrawerClose asChild>
             <Button variant="outline">Close</Button>
           </DrawerClose>
-            <Button className="flex items-center gap-2">
+            <Button disabled={notifications.length === 0} className="flex items-center gap-2">
               <CheckCheck size={20} />
               Mark all as read
             </Button>
@@ -132,7 +87,7 @@ export function Notifications() {
         </DrawerHeader>
         <article className="m-2 flex flex-col gap-2">
             {
-              dummyNotifications.length > 0 ? dummyNotifications.map((notification: notification) => {
+              notifications.length > 0 ? notifications.map((notification: notification) => {
                 const { title, createdOn, success, resource, read } = notification
 
                 return (

@@ -1,8 +1,11 @@
+import { signOut } from "@/auth";
 import CurrentPlan from "@/components/dashboard/CurrentPlan";
 import NewWhat from "@/components/dashboard/NewWhat";
 import { Notifications } from "@/components/dashboard/Notifications";
 import RecentActivity from "@/components/dashboard/RecentActivity";
 import { Button } from "@/components/ui/button";
+import { getData } from "@/lib/actions";
+import { notification } from "@/types/notification";
 import { ArrowUp, ArrowUpFromDotIcon } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -11,7 +14,19 @@ export const metadata: Metadata = {
   title: "Dashboard"
 }
 
-export default function Dashboard () {
+export default async function Dashboard () {
+  // Get the user's data
+  const notifications: any = await getData("notification") || [];
+  const coverLetters: any = await getData("coverLetter") || [];
+  const headshots: any = await getData("headshot") || [];
+  const interviewQuestions: any = await getData("interviewQuestion") || [];
+  const user = await getData("user");
+
+  if(!user) {
+    throw new Error("You're not signed in")
+
+    return signOut();
+  }
 
   return (
     <section className="py-4 overflow-y-scroll h-screen md:py-0 md:pb-8 md:px-4 w-full">
@@ -25,7 +40,7 @@ export default function Dashboard () {
         {/* Buttons and Avatar */}
         <article className="flex gap-4 items-center">
           <article className="flex gap-2 items-center">
-            <Notifications />
+            <Notifications notifications={notifications} />
             <Button className="flex hover:bg-secondary items-center gap-2 bg-secondaryLight hover:shadow-xl transition duration-300 shadow-md font-semibold text-primaryDark px-4 py-2 rounded-xl">
               Upgrade Plan
               <ArrowUpFromDotIcon size={18} />
@@ -97,7 +112,7 @@ export default function Dashboard () {
       <CurrentPlan />
 
       {/* Recent activivity */}
-      <RecentActivity />
+      <RecentActivity notifications={notifications} />
     </section>
   )
 }

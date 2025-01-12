@@ -1,18 +1,17 @@
 "use client";
 import { notification } from "@/types/notification";
-import { dummyNotifications } from "./Notifications";
 import { Button } from "../ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { motion } from "framer-motion";
 
-export default function RecentActivity () {
+export default function RecentActivity ({notifications}: {notifications: notification[]}) {
     return (
         <section className="my-4 px-4 flex flex-col gap-2">
             <h2 className="font-semibold text-xl md:text-2xl">Recent Activity</h2>
 
             <article className="flex flex-col gap-2">
                 {
-                    dummyNotifications.map((notification: notification) => {
+                    notifications.length > 0 ? notifications.map((notification: notification) => {
                         const {title, success, createdOn, read, resource } = notification;
 
                         return (
@@ -41,7 +40,7 @@ export default function RecentActivity () {
                                 </Button>
                             </motion.article>
                         )
-                    })
+                    }) : <p className="text-dullDark">No recent activity</p>
                 }
             </article>
         </section>
