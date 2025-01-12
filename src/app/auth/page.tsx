@@ -14,7 +14,9 @@ export default function Auth() {
             action={async (formData: FormData) => {
                 "use server";
 
-                await signIn("resend", formData);
+                await signIn("resend", formData, {
+                    redirectTo: "/dashboard"
+                });
             }}
             className="bg-white shadow-xl rounded-3xl p-8 w-fit"
             >
