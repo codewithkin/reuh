@@ -11,7 +11,7 @@ export default async function ToolCards() {
 
     return (
         <article className="my-4 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="bg-gradient-to-tr from-orange-500 to-pink-600 text-white">
+          <Card className="bg-primaryDark text-white">
             <CardHeader>
                 <File size={40} />
 
@@ -27,7 +27,7 @@ export default async function ToolCards() {
 
             <CardFooter className="grid gap-2">
                 <p>Resumes Built: {resumesBuilt}</p>
-                    <Button asChild className="bg-gradient-to-tr text-white from-pink-300 to-orange-500" color="primary">
+                    <Button asChild className="bg-primaryLight text-primaryDark" color="primary">
                         <Link href="/dashboard/tools/resume-builder">
                             New Resume
                         </Link>
@@ -35,7 +35,7 @@ export default async function ToolCards() {
             </CardFooter>
           </Card>
 
-          <Card className="bg-gradient-to-tr from-sky-500 to-indigo-600 text-white">
+          <Card className="bg-primaryLight text-primaryDark">
             <CardHeader>
                 <Mail size={40} />
 
@@ -51,7 +51,7 @@ export default async function ToolCards() {
 
             <CardFooter className="grid gap-2">
                 <p>Cover Letters Generated: {resumesBuilt}</p>
-                    <Button asChild className="bg-gradient-to-tr text-white from-purple-300 to-sky-500" color="primary">
+                    <Button asChild className="bg-white text-primaryDark" color="primary">
                         <Link href="/dashboard/tools/cover-letter-builder">
                             New Cover Letter
                         </Link>
@@ -59,7 +59,7 @@ export default async function ToolCards() {
             </CardFooter>
           </Card>
 
-          <Card className="bg-gradient-to-tr from-orange-500 to-pink-600 text-white">
+          <Card className="bg-primaryDark text-white">
             <CardHeader>
                 <MessageSquare size={40} />
 
@@ -75,7 +75,7 @@ export default async function ToolCards() {
 
             <CardFooter className="grid gap-2">
                 <p>Interview s: {resumesBuilt}</p>
-                    <Button asChild className="bg-gradient-to-tr text-white from-pink-300 to-orange-500" color="primary">
+                    <Button asChild className="bg-primaryLight text-primaryDark" color="primary">
                         <Link href="/dashboard/tools/resume-builder">
                             New Interview Prep Session
                         </Link>
@@ -83,7 +83,7 @@ export default async function ToolCards() {
             </CardFooter>
           </Card>
 
-          <Card className="bg-gradient-to-tr from-sky-500 to-indigo-600 text-white">
+          <Card className="bg-primaryLight text-primaryDark">
             <CardHeader>
                 <UserRound size={40} />
 
@@ -99,7 +99,7 @@ export default async function ToolCards() {
 
             <CardFooter className="grid gap-2">
                 <p>My headshots: {resumesBuilt}</p>
-                    <Button asChild className="bg-gradient-to-tr text-white from-purple-300 to-sky-500" color="primary">
+                    <Button asChild className="bg-white text-primaryDark" color="primary">
                         <Link href="/dashboard/tools/resume-builder">
                             New Headshot
                         </Link>
