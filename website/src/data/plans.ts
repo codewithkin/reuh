@@ -20,7 +20,7 @@ export const plans: plan[] = [
             "Limited Access to interview feedback",
         ],
         buttonText: "Choose Plan",
-        actionUrl: "/"
+        actionUrl: "https://app.reuh.pro/auth"
     },
     {
         title: "Premium",
@@ -38,7 +38,7 @@ export const plans: plan[] = [
             "Resume Review"
         ],
         buttonText: "Go Premium",
-        actionUrl: "/"
+        actionUrl: "https://app.reuh.pro/auth"
     },
     {
         title: "Ultimate",
@@ -56,6 +56,6 @@ export const plans: plan[] = [
             "Resume Review",
         ],
         buttonText: "Upgrade to Ultimate",
-        actionUrl: "/"
+        actionUrl: "https://app.reuh.pro/auth"
     },
 ]

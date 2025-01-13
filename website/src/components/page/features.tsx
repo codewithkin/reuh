@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Features () {
     return (
-        <section className="section bg-primaryDark text-white">
+        <section id="features" className="section bg-primaryDark text-white">
             <h2 className="heading">What you get</h2>
 
             <article className="grid mt-4 sm:grid-cols-2 lg:grid-cols-3 justify-center items-center gap-4 md:gap16">

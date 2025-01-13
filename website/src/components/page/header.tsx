@@ -14,9 +14,8 @@ export default function Header () {
             {/* Left */}
             <article className="grid gap-2 md:w-1/2">
                 {/* Chip */}
-                <Link href="/" className="rounded-full transition-all duration-300 hover:gap-8 h-fit w-fit border-2 font-bold flex gap-4 px-8 py-4 items-center border-primaryLight text-primaryLight hover:bg-primaryLight hover:text-white">
+                <Link href="https://app.reuh.pro/auth" className="rounded-full transition-all duration-300 hover:gap-8 h-fit w-fit border-2 font-bold flex gap-4 px-8 py-4 items-center border-primaryLight text-primaryLight hover:bg-primaryLight hover:text-white">
                     Get expert inteview feedback with Reuh
-
                     <ArrowRight />
                 </Link>
 
@@ -35,12 +34,12 @@ export default function Header () {
                 <article className="md:flex gap-2 grid items-center">
                     <Link 
                     className="rounded-xl text-center font-semibold bg-secondary text-white transition-all duration-500 hover:shadow-xl hover:bg-primaryDark px-4 md:py-2 py-4"
-                    href="/">
-                        Pre-order for free
+                    href="https://app.reuh.pro/auth">
+                        Get started for free
                     </Link>
                     <Link
                     className="border-2 text-center font-semibold rounded-xl border-dullLight text-dullLight transition-all duration-300 hover:bg-dullLight hover:text-primaryDark px-4 md:py-2 py-4 rounded-md"
-                    href="/">
+                    href="#features">
                         Features
                     </Link>
                 </article>

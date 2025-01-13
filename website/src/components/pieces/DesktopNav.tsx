@@ -25,27 +25,27 @@ export default function DesktopNav() {
             <Link href="/">Home</Link>
         </li>
         <li>
-            <Link href="/">Resume builder</Link>
+            <Link href="https://app.reuh.pro/dashboard/tools/resume-builder">Resume builder</Link>
         </li>
         <li>
-            <Link href="/">Cover Letters</Link>
+            <Link href="https://app.reuh.pro/dashboard/tools/cover-letter-builder">Cover Letters</Link>
         </li>
         <li>
-            <Link href="/">Headshots</Link>
+            <Link href="https://app.reuh.pro/dashboard/tools/headshot-generator">Headshots</Link>
         </li>
       </ul>
 
       <article className="flex items-center gap-4 font-semibold">
         <Link
         className="border-2 rounded-xl border-dullLight text-dullLight transition-all duration-300 hover:bg-dullLight hover:text-primaryDark px-4 py-2 rounded-md"
-        href="/">
+        href="#features">
             Features
         </Link>
 
         <Link 
         className="rounded-xl bg-primaryLight text-white transition-all duration-500 hover:shadow-xl px-4 py-2"
-        href="/">
-            Pre-order for free
+        href="https://app.reuh.pro/auth">
+          Get started for free
         </Link>
       </article>
     </nav>

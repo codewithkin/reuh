@@ -14,7 +14,7 @@ const features: feature[] = [
         icon: File,
         title: "Resume Builder",
         description: "Our AI assistant can generate a high quality, consice resume for free. Each resume is tailored for a specific job when your provide the job description",
-        url: "/",
+        url: "https://app.reuh.pro/dashboard/resume-builder",
         actionText: "Generate my Resume",
         imageUrl: "/images/features/New resume.png"
     },
@@ -22,7 +22,7 @@ const features: feature[] = [
         icon: Mail,
         title: "Cover Letter Generator",
         description: "With Reuh, you no longer have to spend hours writing the perfect cover letter. Worse still, you'll need to do so for multiple jobs everyday. Our cover letter generator can easily generate a cover letter for you with 1 click !",
-        url: "/",
+        url: "https://app.reuh.pro/dashboard/cover-letter-builder",
         actionText: "Generate my cover letter",
         imageUrl: "/images/features/New Cover Letter Page.png"
     },
@@ -30,7 +30,7 @@ const features: feature[] = [
         icon: Image,
         title: "Headshot Generate",
         description: "Our headshot generator uses AI to creater professional heashots suitable for LinkedIn, Indeed or job applications. We automatically make adjustments for lighting, background and photo quality to make your headshot high quality",
-        url: "/",
+        url: "https://app.reuh.pro/dashboard/headshot-generator",
         actionText: "Optimize my headshot",
         imageUrl: "/images/features/Upload Headshot.png"
     },
@@ -38,7 +38,7 @@ const features: feature[] = [
         icon: FileQuestion,
         title: "Interview Preparation",
         description: "Automated practise interview questions to make sure you nail those Q & A sections. Our AI can also create mock interviews, grade your replies and help you improve your skills",
-        url: "/",
+        url: "https://app.reuh.pro/dashboard/interview-question-generator",
         actionText: "Let's prepare",
         imageUrl: "/images/features/Interview prep.png"
     },
@@ -46,7 +46,7 @@ const features: feature[] = [
         icon: File,
         title: "ATS Optimization",
         description: "The Reuh ATS Optimizer automatically optimize your Cover Letter and Resume to be compliant with ATS and AAA standards",
-        url: "/",
+        url: "https://app.reuh.pro/dashboard/ats-optimizer",
         actionText: "Optimize now",
         imageUrl: "/images/features/Generating headshot loading page.png"
     },

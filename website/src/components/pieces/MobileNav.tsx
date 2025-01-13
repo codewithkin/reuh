@@ -35,23 +35,23 @@ export default function MobileNav () {
                     </li>
 
                     <li>
-                        <Link href="/">Resume Builder</Link>
+                        <Link href="https://app.reuh.pro/dashboard/tools/resume-builder">Resume Builder</Link>
                     </li>
 
                     <li>
-                        <Link href="/">Cover Letters</Link>
+                        <Link href="https://app.reuh.pro/dashboard/tools/cover-letter-builder">Cover Letters</Link>
                     </li>
 
                     <li>
-                        <Link href="/">Headshots</Link>
+                        <Link href="https://app.reuh.pro/dashboard/tools/headshot-generator">Headshots</Link>
                     </li>
 
                     <article className="grid gap-2 mt-4">
                         <Link className="w-full py-4 rounded-xl border-2 border-dullLight text-dullLight text-center flex justify-center items-center" href="#features">
                             Features
                         </Link>
-                        <Link className="w-full shadow-md py-4 rounded-xl bg-primaryLight text-white text-center" href="/">
-                            Pre-order for free
+                        <Link className="w-full shadow-md py-4 rounded-xl bg-primaryLight text-white text-center" href="https://app.reuh.pro/auth">
+                            Get started for free
                         </Link>
                     </article>
                 </motion.ul>
