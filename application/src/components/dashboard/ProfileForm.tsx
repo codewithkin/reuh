@@ -8,10 +8,22 @@ import { getData, updateUser } from "@/lib/actions";
 import SubmitButton from "./profile/SubmitButton";
 import { useFormState } from "react-dom";
 import { motion } from "framer-motion";
+import * as filestack from 'filestack-js';
+const client = filestack.init(process.env.FILE_PICKER_API_KEY || "ApYSRl2kLQvWaJMR0n6ngz");
 
 export default function ProfileForm () {
     // Track the user's data
     const [me, setMe] = useState<any>(null);
+
+    // Track the uploaded image
+    const [uploadedImage, setUploadedImage] = useState<any>(null);
+
+    const onFileUploaded = (res: any) => {
+        console.log(res);
+    }
+
+    // Open the File picker API
+    const picker = client.picker()
 
     // Track if the user has made changes to the form
     const [somethingChanged, setSomethingChanged] = useState(false);
@@ -40,7 +52,7 @@ export default function ProfileForm () {
             <form action={changeUser} className="my-2 flex flex-col gap-2">
                 <article className="flex gap-2 items-center">
                     <img src="/images/design/suit.jpg" className="w-20 h-20 rounded-full" alt="me" />
-                    <Button className="bg-primaryDark">Change Picture</Button>
+                    <Button onClick={() => picker.open()} className="bg-primaryDark">Change Picture</Button>
                 </article>
 
                 {/* Field */}

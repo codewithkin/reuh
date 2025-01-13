@@ -52,7 +52,8 @@ export default function NavBar () {
                         </Link>
                     </li>
 
-                    <Dialog open={open} onOpenChange={setOpen}>
+                    {/* Prevent the form from closing when user clciks outside the dialog */}
+                    <Dialog  open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button size="icon" color="primary">
             <User size={20} />

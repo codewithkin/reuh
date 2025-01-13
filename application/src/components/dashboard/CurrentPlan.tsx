@@ -1,8 +1,8 @@
 import { Label } from "@radix-ui/react-label"
 import { ArrowUp } from "lucide-react"
+import { Progress } from "@/components/ui/progress";
 
-export default function CurrentPlan () {
-    const plan  = "Basic"
+export default function CurrentPlan ({plan}: {plan: string}) {
 
     return (
         <article className="rounded-2xl mx-2 my-4 md:mx-0 w-full md:w-1/4 p-4 bg-gradient-to-t text-white font-semibold from-primaryLight to-primaryDark">
@@ -30,6 +30,8 @@ export default function CurrentPlan () {
             {/* Usage progress bar */}
             <article className="flex flex-col gap-2">
                 <Label>Usage</Label>
+
+                <Progress value={50} />
             </article>
         </article>
     )

@@ -25,6 +25,8 @@ export default async function Dashboard () {
   const interviewQuestions: any = await getData("interviewQuestion") || [];
   const resumes: any = await getData("resume") || [];
   const user = await getData("user");
+  const {plan} = user;
+  console.log(plan);
 
   resources.push({
     title: "Cover Letters",
@@ -87,7 +89,7 @@ export default async function Dashboard () {
       <StatCards resources={resources} />
 
       {/* Current plan data */}
-      <CurrentPlan />
+      <CurrentPlan plan={plan} />
 
       {/* Recent activivity */}
       <RecentActivity notifications={notifications} />
