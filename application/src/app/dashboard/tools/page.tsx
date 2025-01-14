@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { File, Mail, MessageSquare, User, UserRound } from "lucide-react";
+import { File, Mail, MessageSquare, UserRound } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { root } from "@/constants/rootUrl";
@@ -19,47 +19,11 @@ export default function Tools() {
     const fetchData = async () => {
       const response = await fetch(`${root}/api/data/all`);
       const data = await response.json();
-
       setData(data);
     }
     
     fetchData();
   }, []);
-
-  const dummyInterviewQuestions = Array.from({ length: 5 }, (_, i) => ({
-    id: `dummy-${i}`,
-    userId: 'dummy-user',
-    question: "This is a demo interview question",
-    answer: "This is a demo interview answer",
-    correctAnswer: false,
-    createdAt: new Date()
-  }));
-
-  const dummyHeadshots = Array.from({ length: 5 }, (_, i) => ({
-    id: `dummy-${i}`,
-    userId: 'dummy-user',
-    title: "This is a demo headshot",
-    description: "This is a demo headshot description",
-    imageUrl: "/images/user.jpg",
-    createdAt: new Date()
-  }));
-
-  const dummyResumes = Array.from({ length: 5 }, (_, i) => ({
-    id: `dummy-${i}`,
-    userId: 'dummy-user',
-    title: "This is a demo resume",
-    content: "This is a demo resume content",
-    imageUrl: null,
-    createdAt: new Date()
-  }));
-
-  const dummyCoverLetters = Array.from({ length: 5 }, (_, i) => ({
-    id: `dummy-${i}`,
-    userId: 'dummy-user',
-    title: "This is a demo cover letter",
-    content: "This is a demo cover letter content",
-    createdAt: new Date()
-  }));
 
   return (
     <section className="">
@@ -168,7 +132,7 @@ export default function Tools() {
           <section>
             <h2 className="text-xl font-semibold">My Resumes</h2>
             <article className="grid my-4 sm:grid-cols-2 gap-4 lg:grid-cols-4">
-              {dummyResumes.length > 0 ? dummyResumes.map((resume: Resume) => (
+              {data?.resumes?.length > 0 ? data.resumes.map((resume: Resume) => (
                 <ResumePreview key={resume.id} resume={resume} />
               )) : <p className="text-dulldark">No resumes found</p>}
             </article>
@@ -177,7 +141,7 @@ export default function Tools() {
           <section>
             <h2 className="text-xl font-semibold">My Cover Letters</h2>
             <article className="grid my-4 sm:grid-cols-2 gap-4 lg:grid-cols-4">
-              {dummyCoverLetters.length > 0 ? dummyCoverLetters.map((coverLetter: CoverLetter) => (
+              {data?.coverLetters?.length > 0 ? data.coverLetters.map((coverLetter: CoverLetter) => (
                 <CoverLetterPreview key={coverLetter.id} coverLetter={coverLetter} />
               )) : <p className="text-dulldark">No cover letters found</p>}
             </article>
@@ -186,24 +150,22 @@ export default function Tools() {
           <section>
             <h2 className="text-xl font-semibold">My Interview Questions</h2>
             <article className="grid gap-4 my-4">
-              {
-              dummyInterviewQuestions.length > 0 ?dummyInterviewQuestions.map((interviewQuestion: InterviewQuestion) => (
-                  <InterviewQuestionPreview key={interviewQuestion.id} interviewQuestion={interviewQuestion} />
-                )) : <p className="text-dulldark">No interview questions found</p>
-              }
+              {data?.interviewQuestions?.length > 0 ? data.interviewQuestions.map((interviewQuestion: InterviewQuestion) => (
+                <InterviewQuestionPreview key={interviewQuestion.id} interviewQuestion={interviewQuestion} />
+              )) : <p className="text-dulldark">No interview questions found</p>}
             </article>
           </section>
         ) : activeResourceTab === "headshots" ? (
           <section className="my-4">
-            <h2 className="text-xl font-semibold text-center">My Headshots</h2>
+            <h2 className="text-xl font-semibold md:text-start text-center">My Headshots</h2>
             <article className="grid justify-center items-center sm:grid-cols-2 gap-4 my-4 md:grid-cols-3 lg:grid-cols-4">
-              {dummyHeadshots.length > 0 ? dummyHeadshots.map((headshot: Headshot) => (
+              {data?.headshots?.length > 0 ? data.headshots.map((headshot: Headshot) => (
                 <HeadshotPreview key={headshot.id} headshot={headshot} />
               )) : <p className="text-dulldark">No headshots found</p>}
             </article>
           </section>
         ) : null
       }
-  </section>
-)
+    </section>
+  )
 }
