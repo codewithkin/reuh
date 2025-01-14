@@ -120,6 +120,7 @@ model InterviewQuestion {
   id        String   @id @default(cuid())
   question  String
   answer    String?
+  correctAnswer Boolean @default(false)
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
@@ -128,6 +129,8 @@ model InterviewQuestion {
 model Headshot {
   id        String   @id @default(cuid())
   imageUrl  String
+  title     String
+  description String
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())

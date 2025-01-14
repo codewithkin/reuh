@@ -1,14 +1,13 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { prisma } from "../../../../../prisma";
 import { auth } from "@/auth";
+import { getData } from "@/lib/actions";
 
 export async function GET(request: NextRequest) {
     try {
-        // Get the user's email
-        const session = await auth();
+    const user = await getData("user");
 
-    const user = session?.user;
-    console.log("User: ", session);
+    if(!user) throw new Error("User is not defined inside /api/data/resumes/route.ts");
 
     const id = user?.id;
 

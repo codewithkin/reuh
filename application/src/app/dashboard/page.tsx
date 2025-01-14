@@ -6,10 +6,8 @@ import RecentActivity from "@/components/dashboard/RecentActivity";
 import StatCards from "@/components/dashboard/StatCards";
 import { Button } from "@/components/ui/button";
 import { getData } from "@/lib/actions";
-import { notification } from "@/types/notification";
-import { ArrowUp, ArrowUpFromDotIcon } from "lucide-react";
+import { ArrowUpFromDotIcon } from "lucide-react";
 import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Dashboard"
@@ -65,7 +63,7 @@ export default async function Dashboard () {
       <article className="flex flex-col w-full md:flex-row gap-2 md:justify-between md:items-center">
         <article className="flex gap-2 items-center">
           <img src="/images/design/suit.jpg" className="w-8 h-8 rounded-full flex md:hidden" alt="me" />
-          <h2 className="font-semibold text-2xl">Welcome back, Kin Leon !</h2>
+          <h2 className="font-semibold text-2xl">Welcome back, {user?.name || "User"}</h2>
         </article>
 
         {/* Buttons and Avatar */}

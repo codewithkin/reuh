@@ -15,11 +15,12 @@ export async function getData(model: "notification" | "user" | "headshot" | "int
     try {
         switch (model) {
             case "user":
-                const { user } = await auth();
+                const session = await auth();
+                if (!session?.user?.email) throw new Error("Not authenticated");
                 
                 const me = await prisma.user.findUnique({
                     where: {
-                        email: user?.email
+                        email: session.user.email
                     }
                 })
 
@@ -43,11 +44,12 @@ export async function getData(model: "notification" | "user" | "headshot" | "int
 }
 
 export async function updateUser(prevState: any, formData: FormData) {
-    const { user } = await auth();
+    const session = await auth();
+    if (!session?.user?.email) throw new Error("Not authenticated");
 
     await prisma.user.update({
         where: {
-            email: user?.email
+            email: session.user.email
         },
         data: {
             name: formData.get("name") as string,

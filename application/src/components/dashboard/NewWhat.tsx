@@ -4,16 +4,12 @@ import {
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuPortal,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
 import { Button } from "../ui/button"
 import { ChevronDown } from "lucide-react"
+import Link from "next/link"
 
 export default function NewWhat() {
     return (
@@ -30,19 +26,31 @@ export default function NewWhat() {
                 
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
-                        New Resume
+                        <Link href="/dashboard/resume-builder">
+                            New Resume
+                        </Link>
                     </DropdownMenuItem>
                     
                     <DropdownMenuSeparator />
 
                     <DropdownMenuItem>
-                        New Cover Letter
+                        <Link href="/dashboard/cover-letter-builder">
+                            New Cover Letter
+                        </Link>
                     </DropdownMenuItem>
 
                     <DropdownMenuSeparator />
 
                     <DropdownMenuItem>
-                        New Headshot
+                        <Link href="/dashboard/headshot-generator">
+                            New Headshot
+                        </Link>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem>
+                        <Link href="/dashboard/interview-question-generator">
+                            New Mock Interview
+                        </Link>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
             </DropdownMenuContent>

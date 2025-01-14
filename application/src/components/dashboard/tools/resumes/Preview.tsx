@@ -11,7 +11,7 @@ export default function ResumePreview({ resume }: { resume: Resume }) {
   return (
     <Card className="hover:cursor-pointer trandition duration-300 hover:shadow-xl">
         <CardHeader>
-            <Image src={imageUrl || "/images/content/CV.png"} alt={title} width={1000} height={1000} />
+            <Image src={imageUrl || "/images/content/CV.png"} alt={title} width={1000} height={500} />
         </CardHeader>
 
         <CardContent>
