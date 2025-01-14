@@ -27,7 +27,7 @@ export default async function ToolCards() {
 
             <CardFooter className="grid gap-2">
                 <p>Resumes Built: {resumesBuilt}</p>
-                    <Button asChild className="bg-primaryLight text-primaryDark" color="primary">
+                    <Button asChild className="hover:bg-purple-500 hover:text-primaryDark transition duration-300 bg-primaryLight text-primaryDark" color="primary">
                         <Link href="/dashboard/tools/resume-builder">
                             New Resume
                         </Link>
@@ -51,7 +51,7 @@ export default async function ToolCards() {
 
             <CardFooter className="grid gap-2">
                 <p>Cover Letters Generated: {resumesBuilt}</p>
-                    <Button asChild className="bg-white text-primaryDark" color="primary">
+                    <Button asChild className="hover:bg-purple-500 hover:text-primaryDark transition duration-300 bg-white text-primaryDark" color="primary">
                         <Link href="/dashboard/tools/cover-letter-builder">
                             New Cover Letter
                         </Link>
@@ -75,7 +75,7 @@ export default async function ToolCards() {
 
             <CardFooter className="grid gap-2">
                 <p>Interview s: {resumesBuilt}</p>
-                    <Button asChild className="bg-primaryLight text-primaryDark" color="primary">
+                    <Button asChild className="hover:bg-purple-500 hover:text-primaryDark transition duration-300 bg-primaryLight text-primaryDark" color="primary">
                         <Link href="/dashboard/tools/resume-builder">
                             New Interview Prep Session
                         </Link>
@@ -99,7 +99,7 @@ export default async function ToolCards() {
 
             <CardFooter className="grid gap-2">
                 <p>My headshots: {resumesBuilt}</p>
-                    <Button asChild className="bg-white text-primaryDark" color="primary">
+                    <Button asChild className="hover:bg-purple-500 hover:text-primaryDark transition duration-300 bg-white text-primaryDark" color="primary">
                         <Link href="/dashboard/tools/resume-builder">
                             New Headshot
                         </Link>

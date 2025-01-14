@@ -12,8 +12,8 @@ export default function Settings() {
           <h2 className="font-semibold text-2xl">Settings</h2>
 
           {/* Settings tabs */}
-          <Tabs>
-            <TabsList className="my-4" defaultValue="appearance">
+          <Tabs defaultValue="appearance">
+            <TabsList className="my-4">
               <TabsTrigger value="appearance">
                 Appearance
               </TabsTrigger>
