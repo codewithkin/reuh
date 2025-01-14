@@ -22,8 +22,11 @@ export default async function Dashboard () {
   const headshots: any = await getData("headshot") || [];
   const interviewQuestions: any = await getData("interviewQuestion") || [];
   const resumes: any = await getData("resume") || [];
-  const user = await getData("user");
-  const {plan} = user;
+  const userData = await getData("user");
+  const user = Array.isArray(userData) ? userData[0] : userData;
+  if (!user) throw new Error("User not found");
+  
+  const { plan } = user;
 
   resources.push({
     title: "Cover Letters",
@@ -58,12 +61,12 @@ export default async function Dashboard () {
   }
 
   return (
-    <section className="py-4 overflow-y-scroll h-screen md:py-0 md:pb-8 md:px-4 w-full">
+    <section className="py-4 overflow-y-scroll h-screen md:py-0 md:pb-8 md:px-4">
       {/* Top Bar */}
       <article className="flex flex-col w-full md:flex-row gap-2 md:justify-between md:items-center">
         <article className="flex gap-2 items-center">
           <img src="/images/design/suit.jpg" className="w-8 h-8 rounded-full flex md:hidden" alt="me" />
-          <h2 className="font-semibold text-2xl">Welcome back, {user?.name || "User"}</h2>
+          <h2 className="font-semibold text-2xl">Welcome back, {user.name}</h2>
         </article>
 
         {/* Buttons and Avatar */}

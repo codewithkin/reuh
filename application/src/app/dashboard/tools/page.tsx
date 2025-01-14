@@ -62,7 +62,7 @@ export default function Tools() {
   }));
 
   return (
-    <section>
+    <section className="">
       {/* Tools cards */}
       <article className="my-4 grid my-4 my-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <Card onClick={() => setActiveResourceTab("resumes")} className={`${activeResourceTab === "resumes" && "border-4 border-sky-400"} hover:cursor-pointer bg-primaryDark text-white`}>

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function ToolLayout({children}: {children: React.ReactNode}) {
     return (
-        <section className="py-4 md:py-0 md:pb-8 px-4 w-full">
+        <section className="py-4 md:py-0 md:pb-8 px-4 w-full overflow-y-scroll h-screen">
             <ToolsHeader />
             {children}
         </section>
