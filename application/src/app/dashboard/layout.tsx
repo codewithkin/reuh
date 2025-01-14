@@ -12,7 +12,9 @@ export default function RootLayout({
       >
         <NavBar />
         <MobileNavBar />
-        {children}
+        <article className="overflow-y-scroll h-screen">
+          {children}
+        </article>
       </section>
   );
 }

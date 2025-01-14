@@ -26,7 +26,6 @@ export default async function Dashboard () {
   const resumes: any = await getData("resume") || [];
   const user = await getData("user");
   const {plan} = user;
-  console.log(plan);
 
   resources.push({
     title: "Cover Letters",
@@ -53,8 +52,6 @@ export default async function Dashboard () {
     color: "bg-secondaryLight",
     link: "/resumes"
   });
-
-  console.log("My resources", resources);
 
   if(!user) {
     throw new Error("You're not signed in")

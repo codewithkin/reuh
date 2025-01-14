@@ -9,9 +9,11 @@ export default async function ToolCards() {
     const resumes = await response.json();
     const resumesBuilt = resumes.resumes.length;
 
+    const activeResourceTab: string = "resumes";
+
     return (
-        <article className="my-4 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="bg-primaryDark text-white">
+        <article className="my-4 grid my-4 my-12 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card className={`${activeResourceTab === "resumes" && "border-4 border-sky-400"} bg-primaryDark text-white`}>
             <CardHeader>
                 <File size={40} />
 
@@ -35,7 +37,7 @@ export default async function ToolCards() {
             </CardFooter>
           </Card>
 
-          <Card className="bg-primaryLight text-primaryDark">
+          <Card className={`${activeResourceTab === "cover-letters" && "border-4 border-sky-400"} bg-primaryLight text-primaryDark`}>
             <CardHeader>
                 <Mail size={40} />
 
@@ -59,7 +61,7 @@ export default async function ToolCards() {
             </CardFooter>
           </Card>
 
-          <Card className="bg-primaryDark text-white">
+          <Card className={`${activeResourceTab === "interview-questions" && "border-4 border-sky-400"} bg-primaryDark text-white`}>
             <CardHeader>
                 <MessageSquare size={40} />
 
@@ -76,14 +78,14 @@ export default async function ToolCards() {
             <CardFooter className="grid gap-2">
                 <p>Interview s: {resumesBuilt}</p>
                     <Button asChild className="hover:bg-purple-500 hover:text-primaryDark transition duration-300 bg-primaryLight text-primaryDark" color="primary">
-                        <Link href="/dashboard/tools/resume-builder">
+                        <Link href="/dashboard/tools/interview-question-generator">
                             New Interview Prep Session
                         </Link>
                     </Button>
             </CardFooter>
           </Card>
 
-          <Card className="bg-primaryLight text-primaryDark">
+          <Card className={`${activeResourceTab === "headshots" && "border-4 border-sky-400"} bg-primaryLight text-primaryDark`}>
             <CardHeader>
                 <UserRound size={40} />
 
@@ -100,7 +102,7 @@ export default async function ToolCards() {
             <CardFooter className="grid gap-2">
                 <p>My headshots: {resumesBuilt}</p>
                     <Button asChild className="hover:bg-purple-500 hover:text-primaryDark transition duration-300 bg-white text-primaryDark" color="primary">
-                        <Link href="/dashboard/tools/resume-builder">
+                        <Link href="/dashboard/tools/headshot-generator">
                             New Headshot
                         </Link>
                     </Button>
