@@ -1,10 +1,12 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plan, plans } from "@/constants/plans";
 import { useEffect, useState } from "react";
 import { root } from "@/constants/rootUrl";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { updatePlan } from "@/lib/actions";
+import SaveBtn from "./SaveBtn";
 
 interface SettingsContentProps {
   user: any;
@@ -71,7 +73,7 @@ export default function SettingsContent({ user }: SettingsContentProps) {
             <p className="text-dullDark">Edit your plan and payment settings</p>
           </article>
 
-          <form action="">
+          <form action={updatePlan}>
             <article className="flex justify-between my-4 border-b border-gray-200 py-4 items-center">
               <article className="flex flex-col">
                 <h2 className="text-lg font-semibold">Current Plan</h2>
@@ -79,18 +81,25 @@ export default function SettingsContent({ user }: SettingsContentProps) {
               </article>
 
               <article className="flex items-center gap-2">
-                <Input
-                  name="plan"
-                  color="secondary"
-                  defaultValue={myPlan}
-                />
+                <Select name="plan" defaultValue={myPlan}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select a new plan" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Plans</SelectLabel>
+                      <SelectItem value="Free">Free</SelectItem>
+                      <SelectItem value="Starter">Starter ($9.99/mo)</SelectItem>
+                      <SelectItem value="Premium">Premium ($19.99/mo)</SelectItem>
+                      <SelectItem value="Ultimate">Ultimate ($29.99/mo)</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </article>
             </article>
 
             <article className="flex w-full mt-4 justify-end">
-              <Button type="submit" className="bg-primaryLight hover:bg-primaryDark transition duration-300">
-                Save Changes
-              </Button>
+              <SaveBtn />  
             </article>
           </form>
 

@@ -63,3 +63,33 @@ export async function updateUser(prevState: any, formData: FormData) {
     }
 }
 
+export async function updatePlan(formData: FormData) {
+  const selectedPlan = formData.get("plan") as string;
+  
+  if (selectedPlan === "Free") {
+    // Update user's plan to Free
+    const session = await auth();
+    if (!session?.user?.email) throw new Error("Not authenticated");
+
+    await prisma.user.update({
+      where: {
+        email: session.user.email
+      },
+      data: {
+        plan: "Free"
+      }
+    });
+    
+    return { success: true, message: "Plan updated to Free" };
+  }
+
+  // Redirect to payment page based on plan
+  const paymentUrl = selectedPlan === "Premium" 
+    ? "/payments/premium"
+    : selectedPlan === "Ultimate"
+    ? "/payments/ultimate"
+    : "/payments/starter";
+    
+  redirect(paymentUrl);
+}
+
