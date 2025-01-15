@@ -32,7 +32,7 @@ export default function MobileNavBar () {
 
             <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button size="icon" color="primary">
+          <Button className="bg-primaryLight transition duration-300 hover:bg-orange-500 hover:shadow-lg rounded-full" size="icon" color="primary">
             <User size={20} />
           </Button>
         </DialogTrigger>

@@ -55,7 +55,7 @@ export default function NavBar () {
                     {/* Prevent the form from closing when user clciks outside the dialog */}
                     <Dialog  open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button size="icon" color="primary">
+          <Button className="bg-primaryLight transition duration-300 hover:bg-orange-500 hover:shadow-lg" size="icon" color="primary">
             <User size={20} />
           </Button>
         </DialogTrigger>
@@ -73,7 +73,7 @@ export default function NavBar () {
             </article>
 
             {/* Logout */}
-            <Button onClick={() => Logout()} color="secondary" className="text-dullLight">
+            <Button onClick={() => Logout()} color="secondary" className="text-white transition duration-300 bg-red-500 hover:bg-red-700">
                 <DoorOpen />
             </Button>
         </nav>
