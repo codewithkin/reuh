@@ -2,7 +2,6 @@
 import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "../../prisma";
-import { stringify } from "querystring";
 
 export async function Logout () {
         // Sign out
@@ -101,41 +100,41 @@ export async function createNewResumeWithDetails(formData: FormData) {
     const session = await auth();
     if (!session?.user?.email) throw new Error("Not authenticated");
 
+    const users = await prisma.user.findMany();
+
     const user = await prisma.user.findUnique({
         where: {
             email: session.user.email
         }
-    })
+    });
 
-    const userId = user?.id;
+    console.log(users);
+
+    if (!user?.id) throw new Error("User not found");
 
     // Create a new template
     const newTemplate = await prisma.resume.create({
         data: {
             template: template,
-            user: {
-                connect: {
-                    id: userId
-                }
-            },
+            userId: user.id,
             title: `Resume ${Math.floor(Math.random() * 1000000)}`,
             personalInfo: {
                 create: {
-                    fullName: formData.get("fullName") as string,
-                    email: formData.get("email") as string,
-                    phone: formData.get("phone") as string,
-                    address: formData.get("address") as string,
-                    country: formData.get("country") as string,
-                    city: formData.get("city") as string,
-                    summary: formData.get("summary") as string,
-                    linkedin: formData.get("linkedin") as string,
-                    website: formData.get("website") as string
+                    fullName: formData.get("personalInfo_fullName") as string || "",
+                    email: formData.get("personalInfo_email") as string || "",
+                    phone: formData.get("personalInfo_phone") as string || "",
+                    address: formData.get("personalInfo_address") as string || "",
+                    country: formData.get("personalInfo_country") as string || "",
+                    city: formData.get("personalInfo_city") as string || "",
+                    summary: formData.get("personalInfo_summary") as string || "",
+                    linkedin: formData.get("personalInfo_linkedin") as string || "",
+                    website: formData.get("personalInfo_website") as string || ""
                 }
             },
             education: {
                 createMany: {
                     data: Object.keys(formData)
-                        .filter(key => key.startsWith('degree_'))
+                        .filter(key => key.startsWith('education_'))
                         .map(key => {
                             const index = key.split('_')[1];
                             return {
@@ -189,8 +188,8 @@ export async function createNewResumeWithDetails(formData: FormData) {
                         }))
                 }
             }
-        }
-    })
+        },
+    });
 
     console.log(newTemplate);
 
