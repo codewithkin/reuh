@@ -2,6 +2,7 @@
 import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "../../prisma";
+import { stringify } from "querystring";
 
 export async function Logout () {
         // Sign out
@@ -91,4 +92,129 @@ export async function updatePlan(formData: FormData) {
     : "/payments/starter";
     
   redirect(paymentUrl);
+}
+
+export async function createNewResumeWithDetails(formData: FormData) {
+    const template = formData.get("template") as string;
+
+    // Get the user's id
+    const session = await auth();
+    if (!session?.user?.email) throw new Error("Not authenticated");
+
+    const user = await prisma.user.findUnique({
+        where: {
+            email: session.user.email
+        }
+    })
+
+    const userId = user?.id;
+
+    // Create a new template
+    const newTemplate = await prisma.resume.create({
+        data: {
+            template: template,
+            user: {
+                connect: {
+                    id: userId
+                }
+            },
+            title: `Resume ${Math.floor(Math.random() * 1000000)}`,
+            personalInfo: {
+                create: {
+                    fullName: formData.get("fullName") as string,
+                    email: formData.get("email") as string,
+                    phone: formData.get("phone") as string,
+                    address: formData.get("address") as string,
+                    country: formData.get("country") as string,
+                    city: formData.get("city") as string,
+                    summary: formData.get("summary") as string,
+                    linkedin: formData.get("linkedin") as string,
+                    website: formData.get("website") as string
+                }
+            },
+            education: {
+                createMany: {
+                    data: Object.keys(formData)
+                        .filter(key => key.startsWith('degree_'))
+                        .map(key => {
+                            const index = key.split('_')[1];
+                            return {
+                                degree: formData.get(`degree_${index}`) as string,
+                                institution: formData.get(`institution_${index}`) as string,
+                                startDate: formData.get(`startDate_${index}`) as string,
+                                endDate: formData.get(`endDate_${index}`) as string,
+                            }
+                        })
+                }
+            },
+            experience: {
+                createMany: {
+                    data: Object.keys(formData)
+                        .filter(key => key.startsWith('company_'))
+                        .map(key => {
+                            const index = key.split('_')[1];
+                            return {
+                                company: formData.get(`company_${index}`) as string,
+                                position: formData.get(`position_${index}`) as string,
+                                startDate: formData.get(`startDate_${index}`) as string,
+                                endDate: formData.get(`endDate_${index}`) as string,
+                            }
+                        })
+                }
+            },
+            skills: {
+                createMany: {
+                    data: Object.keys(formData)
+                        .filter(key => key.startsWith('skill_'))
+                        .map(key => ({
+                            name: formData.get(key) as string
+                        }))
+                }
+            },
+            certifications: {
+                createMany: {
+                    data: Object.keys(formData)
+                        .filter(key => key.startsWith('certification_'))
+                        .map(key => ({
+                            name: formData.get(key) as string
+                        }))
+                }
+            },
+            references: {
+                createMany: {
+                    data: Object.keys(formData)
+                        .filter(key => key.startsWith('reference_'))
+                        .map(key => ({
+                            name: formData.get(key) as string
+                        }))
+                }
+            }
+        }
+    })
+
+    console.log(newTemplate);
+
+    if (newTemplate) {
+        return {
+            success: true,
+            message: "New resume created successfully",
+            newTemplate
+        }
+    } else {
+        return {
+            success: false,
+            message: "An error occured",
+            newTemplate
+        }
+    }
+}
+
+export async function getResumeById(id: string | null) {
+    if(!id) throw new Error("No id provided");
+
+    return await prisma.resume.findUnique({
+        where: {
+            id
+        }
+    })
 }
