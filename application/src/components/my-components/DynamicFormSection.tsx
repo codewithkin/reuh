@@ -7,28 +7,31 @@ import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
 
 interface Field {
-  name: string;
-  label: string;
-  type: "text" | "number" | "date" | "email" | "tel" | "url" | "textarea" | "checkbox";
-  placeholder?: string;
-  required?: boolean;
-  helpText?: string;
-  min?: number;
-  max?: number;
+    name: string;
+    label: string;
+    type: string;
+    placeholder?: string;
+    required?: boolean;
+    helpText?: string;
+    min?: number;
+    max?: number;
 }
 
 interface DynamicFormSectionProps {
-  title: string;
-  fields: Field[];
-  numberKey: string;
+    title: string;
+    fields: Field[];
+    numberKey: string;
+    onFieldChange?: (data: { [key: string]: string }) => void;
 }
 
 export default function DynamicFormSection({ 
-  title, 
-  fields,
-  numberKey 
+    title, 
+    fields,
+    numberKey,
+    onFieldChange 
 }: DynamicFormSectionProps) {
     const [items, setItems] = useState<Array<{[key: string]: number}>>([]);
+    const [formValues, setFormValues] = useState<{[key: string]: string}>({});
     
     const handleAddNew = () => {
         setItems([...items, {
@@ -37,7 +40,36 @@ export default function DynamicFormSection({
     };
 
     const handleDelete = (itemNumber: number) => {
-        setItems(items.filter(item => item[numberKey] !== itemNumber));
+        const newItems = items.filter(item => item[numberKey] !== itemNumber);
+        setItems(newItems);
+        
+        // Clean up form values for deleted item
+        const newFormValues = { ...formValues };
+        fields.forEach(field => {
+            delete newFormValues[`${field.name}_${itemNumber}`];
+        });
+        setFormValues(newFormValues);
+        onFieldChange?.(newFormValues);
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        const newValues = {
+            ...formValues,
+            [name]: value
+        };
+        setFormValues(newValues);
+        onFieldChange?.(newValues);
+        console.log("Section Values:", newValues); // Debug log
+    };
+
+    const handleCheckboxChange = (name: string, checked: boolean) => {
+        const newValues = {
+            ...formValues,
+            [name]: checked ? 'true' : 'false'
+        };
+        setFormValues(newValues);
+        onFieldChange?.(newValues);
     };
 
     return (
@@ -63,13 +95,11 @@ export default function DynamicFormSection({
                                         id={`${field.name}_${item[numberKey]}`}
                                         name={`${field.name}_${item[numberKey]}`}
                                         className="border-orange-500 data-[state=checked]:bg-orange-500"
+                                        onCheckedChange={(checked) => {
+                                            handleCheckboxChange(`${field.name}_${item[numberKey]}`, checked as boolean);
+                                        }}
                                     />
-                                    <Label 
-                                        htmlFor={`${field.name}_${item[numberKey]}`}
-                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                    >
-                                        {field.label}
-                                    </Label>
+                                    <Label htmlFor={`${field.name}_${item[numberKey]}`}>{field.label}</Label>
                                 </div>
                             ) : (
                                 <>
@@ -80,7 +110,8 @@ export default function DynamicFormSection({
                                         type={field.type}
                                         placeholder={field.placeholder}
                                         required={field.required}
-                                        aria-required={field.required}
+                                        onChange={handleInputChange}
+                                        value={formValues[`${field.name}_${item[numberKey]}`] || ''}
                                     />
                                 </>
                             )}
