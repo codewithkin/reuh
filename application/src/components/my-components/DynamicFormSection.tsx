@@ -4,14 +4,17 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { Checkbox } from "../ui/checkbox";
 
 interface Field {
   name: string;
   label: string;
-  type: string;
-  placeholder: string;
+  type: "text" | "number" | "date" | "email" | "tel" | "url" | "textarea" | "checkbox";
+  placeholder?: string;
   required?: boolean;
   helpText?: string;
+  min?: number;
+  max?: number;
 }
 
 interface DynamicFormSectionProps {
@@ -54,15 +57,33 @@ export default function DynamicFormSection({
                 <article key={item[numberKey]} className="px-8 flex flex-col gap-4 py-2">
                     {fields.map((field) => (
                         <article key={field.name} className="flex gap-2 flex-col">
-                            <Label htmlFor={`${field.name}_${item[numberKey]}`}>{field.label}</Label>
-                            <Input
-                                id={`${field.name}_${item[numberKey]}`}
-                                name={`${field.name}_${item[numberKey]}`}
-                                type={field.type}
-                                placeholder={field.placeholder}
-                                required={field.required}
-                                aria-required={field.required}
-                            />
+                            {field.type === "checkbox" ? (
+                                <div className="flex items-center space-x-2">
+                                    <Checkbox
+                                        id={`${field.name}_${item[numberKey]}`}
+                                        name={`${field.name}_${item[numberKey]}`}
+                                        className="border-orange-500 data-[state=checked]:bg-orange-500"
+                                    />
+                                    <Label 
+                                        htmlFor={`${field.name}_${item[numberKey]}`}
+                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                    >
+                                        {field.label}
+                                    </Label>
+                                </div>
+                            ) : (
+                                <>
+                                    <Label htmlFor={`${field.name}_${item[numberKey]}`}>{field.label}</Label>
+                                    <Input
+                                        id={`${field.name}_${item[numberKey]}`}
+                                        name={`${field.name}_${item[numberKey]}`}
+                                        type={field.type}
+                                        placeholder={field.placeholder}
+                                        required={field.required}
+                                        aria-required={field.required}
+                                    />
+                                </>
+                            )}
                             {field.helpText && (
                                 <p className="text-dullDark text-xs">{field.helpText}</p>
                             )}
