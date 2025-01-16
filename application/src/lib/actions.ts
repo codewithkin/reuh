@@ -92,13 +92,3 @@ export async function updatePlan(formData: FormData) {
     
   redirect(paymentUrl);
 }
-
-export async function createNewResumeWithDetails (formData: FormData) {
-    const templateName = formData.get("template");
-
-    // Create a new resume entry with the provided data
-    const resume_id = "bujbm";
-
-    // Redirect to the edit page
-    redirect(`/dashboard/resume-builder/build/data/${formData.get("template")}/edit/done?id=${resume_id}`);
-}
