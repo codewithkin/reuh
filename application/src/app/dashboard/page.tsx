@@ -10,52 +10,57 @@ import { ArrowUpFromDotIcon } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dashboard"
-}
+  title: "Dashboard",
+};
 
-export default async function Dashboard () {
+export default async function Dashboard() {
   const resources = [];
 
   // Get the user's data
-  const notifications: any = await getData("notification") || [];
-  const coverLetters: any = await getData("coverLetter") || [];
-  const headshots: any = await getData("headshot") || [];
-  const interviewQuestions: any = await getData("interviewQuestion") || [];
-  const resumes: any = await getData("resume") || [];
+  const notifications: any = (await getData("notification")) || [];
+  const coverLetters: any = (await getData("coverLetter")) || [];
+  const headshots: any = (await getData("headshot")) || [];
+  const interviewQuestions: any = (await getData("interviewQuestion")) || [];
+  const resumes: any = (await getData("resume")) || [];
   const userData = await getData("user");
   const user = Array.isArray(userData) ? userData[0] : userData;
   if (!user) throw new Error("User not found");
-  
+
   const { plan } = user;
 
-  resources.push({
-    title: "Cover Letters",
-    count: coverLetters.length,
-    percentage: 0,
-    color: "bg-secondaryLight",
-    link: "/cover-letters"
-  }, {
-    title: "Headshots",
-    count: headshots.length,
-    percentage: 0,
-    color: "bg-secondaryLight",
-    link: "/headshots"
-  }, {
-    title: "Interview Questions",
-    count: interviewQuestions.length,
-    percentage: 0,
-    color: "bg-secondaryLight",
-    link: "/interview-questions"
-  }, {
-    title: "Resumes",
-    count: resumes.length,
-    percentage: 0,
-    color: "bg-secondaryLight",
-    link: "/resumes"
-  });
+  resources.push(
+    {
+      title: "Cover Letters",
+      count: coverLetters.length,
+      percentage: 0,
+      color: "bg-secondaryLight",
+      link: "/cover-letters",
+    },
+    {
+      title: "Headshots",
+      count: headshots.length,
+      percentage: 0,
+      color: "bg-secondaryLight",
+      link: "/headshots",
+    },
+    {
+      title: "Interview Questions",
+      count: interviewQuestions.length,
+      percentage: 0,
+      color: "bg-secondaryLight",
+      link: "/interview-questions",
+    },
+    {
+      title: "Resumes",
+      count: resumes.length,
+      percentage: 0,
+      color: "bg-secondaryLight",
+      link: "resume-builder",
+    }
+  );
 
-  if(!user) {
-    throw new Error("You're not signed in")
+  if (!user) {
+    throw new Error("You're not signed in");
 
     return signOut();
   }
@@ -65,7 +70,11 @@ export default async function Dashboard () {
       {/* Top Bar */}
       <article className="flex flex-col w-full md:flex-row gap-2 md:justify-between md:items-center">
         <article className="flex gap-2 items-center">
-          <img src="/images/design/suit.jpg" className="w-8 h-8 rounded-full flex md:hidden" alt="me" />
+          <img
+            src="/images/design/suit.jpg"
+            className="w-8 h-8 rounded-full flex md:hidden"
+            alt="me"
+          />
           <h2 className="font-semibold text-2xl">Welcome back, {user.name}</h2>
         </article>
 
@@ -80,7 +89,11 @@ export default async function Dashboard () {
             <NewWhat />
           </article>
 
-          <img src="/images/design/suit.jpg" className="w-12 h-12 rounded-full hidden md:flex" alt="me" />
+          <img
+            src="/images/design/suit.jpg"
+            className="w-12 h-12 rounded-full hidden md:flex"
+            alt="me"
+          />
         </article>
       </article>
 
@@ -92,5 +105,5 @@ export default async function Dashboard () {
       {/* Recent activivity */}
       <RecentActivity notifications={notifications} />
     </section>
-  )
+  );
 }

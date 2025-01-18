@@ -1,8 +1,8 @@
 "use client";
-import * as React from "react"
- 
-import { useMediaQuery } from "@/hooks/use-media-query"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerClose,
@@ -21,15 +21,15 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer"
+} from "@/components/ui/drawer";
 import { Bell, CheckCheck } from "lucide-react";
 import { notification } from "@/types/notification";
 import Notification from "./Notification";
 
 export function Notifications({ notifications }: { notifications: notification[] }) {
-  const [open, setOpen] = React.useState(false)
-  const isDesktop = useMediaQuery("(min-width: 768px)")
- 
+  const [open, setOpen] = React.useState(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
@@ -41,26 +41,23 @@ export function Notifications({ notifications }: { notifications: notification[]
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Notifications</DialogTitle>
-            <DialogDescription>
-              Let's see what you've been up to
-            </DialogDescription>
+            <DialogDescription>Let's see what you've been up to</DialogDescription>
           </DialogHeader>
           <article className="my-2 flex flex-col gap-2">
-            {
-              notifications.length > 0 ? notifications.map((notification: notification) => {
-                const { title, createdOn, success, resource, read } = notification
+            {notifications.length > 0 ? (
+              notifications.map((notification: notification) => {
+                const { title, createdOn, success, resource, read } = notification;
 
-                return (
-                  <Notification notification={notification} />
-                )
-              }) :
+                return <Notification notification={notification} />;
+              })
+            ) : (
               <h2 className="text-dullLight">No new notifications</h2>
-            }
+            )}
           </article>
           <DialogFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Close</Button>
-          </DrawerClose>
+            <DrawerClose asChild>
+              <Button variant="outline">Close</Button>
+            </DrawerClose>
             <Button disabled={notifications.length === 0} className="flex items-center gap-2">
               <CheckCheck size={20} />
               Mark all as read
@@ -68,45 +65,42 @@ export function Notifications({ notifications }: { notifications: notification[]
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    )
+    );
   }
- 
+
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-          <Button size="icon" color="primary">
-            <Bell size={25} />
-          </Button>
+        <Button size="icon" color="primary">
+          <Bell size={25} />
+        </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="text-left">
           <DrawerTitle>Notifications</DrawerTitle>
-          <DrawerDescription>
-            Let's see what you've been up to
-          </DrawerDescription>
+          <DrawerDescription>Let's see what you've been up to</DrawerDescription>
         </DrawerHeader>
         <article className="m-2 flex flex-col gap-2">
-            {
-              notifications.length > 0 ? notifications.map((notification: notification) => {
-                const { title, createdOn, success, resource, read } = notification
+          {notifications.length > 0 ? (
+            notifications.map((notification: notification) => {
+              const { title, createdOn, success, resource, read } = notification;
 
-                return (
-                  <Notification notification={notification} />
-                )
-              }) :
-              <h2 className="text-dullLight">No new notifications</h2>
-            }
-          </article>
+              return <Notification notification={notification} />;
+            })
+          ) : (
+            <h2 className="text-dullLight">No new notifications</h2>
+          )}
+        </article>
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button variant="outline">Close</Button>
           </DrawerClose>
-            <Button className="flex items-center gap-2">
-              <CheckCheck size={20} />
-              Mark all as read
-            </Button>
+          <Button className="flex items-center gap-2">
+            <CheckCheck size={20} />
+            Mark all as read
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
-  )
+  );
 }

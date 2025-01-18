@@ -4,7 +4,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plan, plans } from "@/constants/plans";
 import { useEffect, useState } from "react";
 import { root } from "@/constants/rootUrl";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { updatePlan } from "@/lib/actions";
 import SaveBtn from "./SaveBtn";
 
@@ -24,7 +32,7 @@ export default function SettingsContent({ user }: SettingsContentProps) {
         const data = await response.json();
         setResources(data);
       } catch (error) {
-        console.error('Failed to fetch resources:', error);
+        console.error("Failed to fetch resources:", error);
       }
     };
 
@@ -56,12 +64,7 @@ export default function SettingsContent({ user }: SettingsContentProps) {
 
             <article className="flex items-center gap-2">
               <article className="w-6 h-6 rounded-sm bg-primaryLight"></article>
-              <Input
-                name="color"
-                color="secondary"
-                prefix="#"
-                defaultValue="#008BF8"
-              />
+              <Input name="color" color="secondary" prefix="#" defaultValue="#008BF8" />
             </article>
           </article>
         </TabsContent>
@@ -99,7 +102,7 @@ export default function SettingsContent({ user }: SettingsContentProps) {
             </article>
 
             <article className="flex w-full mt-4 justify-end">
-              <SaveBtn />  
+              <SaveBtn />
             </article>
           </form>
 
@@ -121,7 +124,9 @@ export default function SettingsContent({ user }: SettingsContentProps) {
             </article>
 
             <article className="flex items-center gap-2">
-              <h3 className="text-xl font-semibold">{ (planData?.resumesGenerationsPerMonth || 0) - (resources?.resumes?.length || 0)}</h3>
+              <h3 className="text-xl font-semibold">
+                {(planData?.resumesGenerationsPerMonth || 0) - (resources?.resumes?.length || 0)}
+              </h3>
             </article>
           </article>
 
@@ -132,7 +137,10 @@ export default function SettingsContent({ user }: SettingsContentProps) {
             </article>
 
             <article className="flex items-center gap-2">
-              <h3 className="text-xl font-semibold">{ (planData?.coverLettersGenerationsPerMonth || 0) - (resources?.coverLetters?.length || 0)}</h3>
+              <h3 className="text-xl font-semibold">
+                {(planData?.coverLettersGenerationsPerMonth || 0) -
+                  (resources?.coverLetters?.length || 0)}
+              </h3>
             </article>
           </article>
 
@@ -143,7 +151,10 @@ export default function SettingsContent({ user }: SettingsContentProps) {
             </article>
 
             <article className="flex items-center gap-2">
-              <h3 className="text-xl font-semibold">{ (planData?.interviewQuestionsGenerationsPerMonth || 0) - (resources?.interviewQuestions?.length || 0)}</h3>
+              <h3 className="text-xl font-semibold">
+                {(planData?.interviewQuestionsGenerationsPerMonth || 0) -
+                  (resources?.interviewQuestions?.length || 0)}
+              </h3>
             </article>
           </article>
 
@@ -154,11 +165,14 @@ export default function SettingsContent({ user }: SettingsContentProps) {
             </article>
 
             <article className="flex items-center gap-2">
-              <h3 className="text-xl font-semibold">{ (planData?.headshotsGenerationsPerMonth || 0) - (resources?.headshots?.length || 0)}</h3>
+              <h3 className="text-xl font-semibold">
+                {(planData?.headshotsGenerationsPerMonth || 0) -
+                  (resources?.headshots?.length || 0)}
+              </h3>
             </article>
           </article>
         </TabsContent>
       </Tabs>
     </section>
   );
-} 
+}

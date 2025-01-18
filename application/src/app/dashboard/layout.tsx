@@ -7,14 +7,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <section
-        className="md:px-2 overflow-hidden items-center md:items-start w-screen md:py-4 md:h-screen flex-col-reverse flex md:flex-row"
-      >
-        <NavBar />
-        <MobileNavBar />
-        <article className="overflow-y-scroll md:overflow-hidden h-screen w-full">
-          {children}
-        </article>
-      </section>
+    <section className="md:px-2 overflow-hidden items-center md:items-start w-screen md:py-4 md:h-screen flex-col-reverse flex md:flex-row">
+      <NavBar />
+      <MobileNavBar />
+      <article className="overflow-y-scroll md:overflow-hidden h-screen w-full">{children}</article>
+    </section>
   );
 }
