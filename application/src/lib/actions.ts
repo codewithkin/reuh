@@ -96,6 +96,8 @@ export async function updatePlan(formData: FormData) {
 export async function createNewResumeWithDetails(formData: FormData) {
     const template = formData.get("template") as string;
 
+    console.log("Form data", formData);
+
     // Get the user's id
     const session = await auth();
     if (!session?.user?.email) throw new Error("Not authenticated");
@@ -108,108 +110,92 @@ export async function createNewResumeWithDetails(formData: FormData) {
 
     // Prepare the create data
     const createData: any = {
-        template: template,
+        template: formData.get("template") as string,
         userId: user.id,
         title: `Resume ${Math.floor(Math.random() * 1000000)}`,
         personalInfo: {
             create: {
-                fullName: formData.get("personalInfo_fullName") as string || "",
-                email: formData.get("personalInfo_email") as string || "",
-                phone: formData.get("personalInfo_phone") as string || "",
-                address: formData.get("personalInfo_address") as string || "",
-                country: formData.get("personalInfo_country") as string || "",
-                city: formData.get("personalInfo_city") as string || "",
-                summary: formData.get("personalInfo_summary") as string || "",
-                linkedin: formData.get("personalInfo_linkedin") as string || "",
-                website: formData.get("personalInfo_website") as string || ""
+                fullName: formData.get("fullName_1") as string || "",
+                email: formData.get("email_1") as string || "",
+                phone: formData.get("phone_1") as string || "",
+                address: formData.get("address_1") as string || "",
+                country: formData.get("country_1") as string || "",
+                city: formData.get("city_1") as string || "",
+                summary: formData.get("summary_1") as string || "",
+                linkedin: formData.get("linkedin_1") as string || "",
+                website: formData.get("website_1") as string || ""
             }
         }
     };
 
-    // Check and add education if provided
-    const educationData = Object.keys(formData)
-        .filter(key => key.startsWith('education_'))
-        .map(key => {
-            const index = key.split('_')[1];
-            return {
-                degree: formData.get(`degree_${index}`) as string,
-                institution: formData.get(`institution_${index}`) as string,
-                startDate: formData.get(`startDate_${index}`) as string,
-                endDate: formData.get(`endDate_${index}`) as string,
+    // Education
+    const educationEntries = Array.from(formData.entries())
+        .filter(([key]) => key.includes('_1') && 
+            (key.startsWith('degree_') || key.startsWith('institution_')));
+
+    if (educationEntries.length > 0) {
+        createData.education = {
+            createMany: {
+                data: [{
+                    degree: formData.get("degree_1") as string,
+                    institution: formData.get("institution_1") as string,
+                    startDate: formData.get("startDate_1") as string,
+                    endDate: formData.get("endDate_1") as string,
+                    location: formData.get("location_1") as string,
+                    description: formData.get("description_1") as string
+                }]
+            }
+        };
+    }
+
+    // Work Experience
+    const experienceEntries = Array.from(formData.entries())
+        .filter(([key]) => key.includes('_1') && 
+            (key.startsWith('company_') || key.startsWith('position_')));
+
+    if (experienceEntries.length > 0) {
+        createData.experience = {
+            createMany: {
+                data: [{
+                    company: formData.get("company_1") as string,
+                    position: formData.get("position_1") as string,
+                    startDate: formData.get("startDate_1") as string,
+                    endDate: formData.get("endDate_1") as string,
+                    location: formData.get("location_1") as string,
+                    description: formData.get("description_1") as string,
+                    technologies: (formData.get("technologies_1") as string)?.split(',') || []
+                }]
+            }
+        };
+    }
+
+    console.log('Final createData before create:', createData);
+
+    try {
+        const newResume = await prisma.resume.create({ 
+            data: createData,
+            include: {
+                personalInfo: true,
+                education: true,
+                experience: true,
+                skills: true,
+                certifications: true,
+                references: true
             }
         });
-
-    if (educationData.length > 0) {
-        createData.education = { createMany: { data: educationData } };
-    }
-
-    // Check and add experience if provided
-    const experienceData = Object.keys(formData)
-        .filter(key => key.startsWith('company_'))
-        .map(key => {
-            const index = key.split('_')[1];
-            return {
-                company: formData.get(`company_${index}`) as string,
-                position: formData.get(`position_${index}`) as string,
-                startDate: formData.get(`startDate_${index}`) as string,
-                endDate: formData.get(`endDate_${index}`) as string,
-            }
-        });
-
-    if (experienceData.length > 0) {
-        createData.experience = { createMany: { data: experienceData } };
-    }
-
-    // Check and add skills if provided
-    const skillsData = Object.keys(formData)
-        .filter(key => key.startsWith('skill_'))
-        .map(key => ({
-            name: formData.get(key) as string
-        }));
-
-    if (skillsData.length > 0) {
-        createData.skills = { createMany: { data: skillsData } };
-    }
-
-    // Check and add certifications if provided
-    const certificationsData = Object.keys(formData)
-        .filter(key => key.startsWith('certification_'))
-        .map(key => ({
-            name: formData.get(key) as string
-        }));
-
-    if (certificationsData.length > 0) {
-        createData.certifications = { createMany: { data: certificationsData } };
-    }
-
-    // Check and add references if provided
-    const referencesData = Object.keys(formData)
-        .filter(key => key.startsWith('reference_'))
-        .map(key => ({
-            name: formData.get(key) as string
-        }));
-
-    if (referencesData.length > 0) {
-        createData.references = { createMany: { data: referencesData } };
-    }
-
-    // Create the resume with all provided data
-    const newResume = await prisma.resume.create({
-        data: createData
-    });
-
-    if (newResume) {
+        console.log('Created resume:', newResume);
         return {
             success: true,
             message: "New resume created successfully",
             newResume
         }
-    } else {
+    } catch (error) {
+        console.error('Error creating resume:', error);
         return {
             success: false,
-            message: "An error occurred",
+            message: "Error creating resume: " + (error as Error).message,
             newResume: null
-        }
+        };
     }
 }
 
@@ -217,8 +203,14 @@ export async function getResumeById(id: string | null) {
     if(!id) throw new Error("No id provided");
 
     return await prisma.resume.findUnique({
-        where: {
-            id
+        where: { id },
+        include: {
+            personalInfo: true,
+            education: true,
+            experience: true,
+            skills: true,
+            certifications: true,
+            references: true
         }
-    })
+    });
 }

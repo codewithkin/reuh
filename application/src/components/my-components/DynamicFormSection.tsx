@@ -79,6 +79,7 @@ export default function DynamicFormSection({
                 <Button 
                     onClick={handleAddNew} 
                     size="icon" 
+                    type="button"
                     className="transition duration-300 bg-gradient-to-r from-orange-500 to-orange-700 hover:from-purple-400 hover:to-blue-600"
                 >
                     <Plus size={20} />
