@@ -11,6 +11,7 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx}\""
   },
   "dependencies": {
+    "@auth/mongodb-adapter": "^3.7.4",
     "@auth/prisma-adapter": "^2.7.4",
     "@editorjs/checklist": "^1.6.0",
     "@editorjs/editorjs": "^2.30.7",
@@ -36,6 +37,7 @@
     "filestack-js": "^3.36.4",
     "framer-motion": "^11.16.4",
     "lucide-react": "^0.469.0",
+    "mongodb": "^6.12.0",
     "next": "14.2.22",
     "next-auth": "^5.0.0-beta.25",
     "next-themes": "^0.4.4",
