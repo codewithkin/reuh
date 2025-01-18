@@ -2,6 +2,7 @@
 import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "../../prisma";
+import { improveResume } from "./ai/improveResume";
 
 export async function Logout () {
         // Sign out
