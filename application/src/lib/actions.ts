@@ -214,3 +214,13 @@ export async function getResumeById(id: string | null) {
         }
     });
 }
+
+export async function getImprovedResume(resumeData: any) {
+    try {
+        const improvedResume = await improveResume(resumeData);
+        return improvedResume;
+    } catch (error) {
+        console.error('Error improving resume:', error);
+        return resumeData; // Fallback to original data if AI fails
+    }
+}
