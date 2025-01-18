@@ -16,6 +16,13 @@ export async function GET(request: NextRequest) {
     where: {
       userId: id,
     },
+    include: {
+      certifications: true,
+      references: true,
+      skills: true,
+      experience: true,
+      education: true,
+    },
   });
   const coverLetters = await prisma.coverLetter.findMany({
     where: {

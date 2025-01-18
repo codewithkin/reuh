@@ -192,6 +192,16 @@ export async function createNewResumeWithDetails(formData: FormData) {
       },
     });
     console.log("Created resume:", newResume);
+
+    // Create a new notification
+    await prisma.notifications.create({
+      data: {
+        message: "New resume created",
+        description: "Your resume has been created successfully",
+        userId: user.id,
+      },
+    });
+
     return {
       success: true,
       message: "New resume created successfully",
