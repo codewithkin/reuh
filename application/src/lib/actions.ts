@@ -100,110 +100,115 @@ export async function createNewResumeWithDetails(formData: FormData) {
     const session = await auth();
     if (!session?.user?.email) throw new Error("Not authenticated");
 
-    const users = await prisma.user.findMany();
-
     const user = await prisma.user.findUnique({
-        where: {
-            email: session.user.email
-        }
+        where: { email: session.user.email }
     });
-
-    console.log(users);
 
     if (!user?.id) throw new Error("User not found");
 
-    // Create a new template
-    const newTemplate = await prisma.resume.create({
-        data: {
-            template: template,
-            userId: user.id,
-            title: `Resume ${Math.floor(Math.random() * 1000000)}`,
-            personalInfo: {
-                create: {
-                    fullName: formData.get("personalInfo_fullName") as string || "",
-                    email: formData.get("personalInfo_email") as string || "",
-                    phone: formData.get("personalInfo_phone") as string || "",
-                    address: formData.get("personalInfo_address") as string || "",
-                    country: formData.get("personalInfo_country") as string || "",
-                    city: formData.get("personalInfo_city") as string || "",
-                    summary: formData.get("personalInfo_summary") as string || "",
-                    linkedin: formData.get("personalInfo_linkedin") as string || "",
-                    website: formData.get("personalInfo_website") as string || ""
-                }
-            },
-            education: {
-                createMany: {
-                    data: Object.keys(formData)
-                        .filter(key => key.startsWith('education_'))
-                        .map(key => {
-                            const index = key.split('_')[1];
-                            return {
-                                degree: formData.get(`degree_${index}`) as string,
-                                institution: formData.get(`institution_${index}`) as string,
-                                startDate: formData.get(`startDate_${index}`) as string,
-                                endDate: formData.get(`endDate_${index}`) as string,
-                            }
-                        })
-                }
-            },
-            experience: {
-                createMany: {
-                    data: Object.keys(formData)
-                        .filter(key => key.startsWith('company_'))
-                        .map(key => {
-                            const index = key.split('_')[1];
-                            return {
-                                company: formData.get(`company_${index}`) as string,
-                                position: formData.get(`position_${index}`) as string,
-                                startDate: formData.get(`startDate_${index}`) as string,
-                                endDate: formData.get(`endDate_${index}`) as string,
-                            }
-                        })
-                }
-            },
-            skills: {
-                createMany: {
-                    data: Object.keys(formData)
-                        .filter(key => key.startsWith('skill_'))
-                        .map(key => ({
-                            name: formData.get(key) as string
-                        }))
-                }
-            },
-            certifications: {
-                createMany: {
-                    data: Object.keys(formData)
-                        .filter(key => key.startsWith('certification_'))
-                        .map(key => ({
-                            name: formData.get(key) as string
-                        }))
-                }
-            },
-            references: {
-                createMany: {
-                    data: Object.keys(formData)
-                        .filter(key => key.startsWith('reference_'))
-                        .map(key => ({
-                            name: formData.get(key) as string
-                        }))
-                }
+    // Prepare the create data
+    const createData: any = {
+        template: template,
+        userId: user.id,
+        title: `Resume ${Math.floor(Math.random() * 1000000)}`,
+        personalInfo: {
+            create: {
+                fullName: formData.get("personalInfo_fullName") as string || "",
+                email: formData.get("personalInfo_email") as string || "",
+                phone: formData.get("personalInfo_phone") as string || "",
+                address: formData.get("personalInfo_address") as string || "",
+                country: formData.get("personalInfo_country") as string || "",
+                city: formData.get("personalInfo_city") as string || "",
+                summary: formData.get("personalInfo_summary") as string || "",
+                linkedin: formData.get("personalInfo_linkedin") as string || "",
+                website: formData.get("personalInfo_website") as string || ""
             }
-        },
+        }
+    };
+
+    // Check and add education if provided
+    const educationData = Object.keys(formData)
+        .filter(key => key.startsWith('education_'))
+        .map(key => {
+            const index = key.split('_')[1];
+            return {
+                degree: formData.get(`degree_${index}`) as string,
+                institution: formData.get(`institution_${index}`) as string,
+                startDate: formData.get(`startDate_${index}`) as string,
+                endDate: formData.get(`endDate_${index}`) as string,
+            }
+        });
+
+    if (educationData.length > 0) {
+        createData.education = { createMany: { data: educationData } };
+    }
+
+    // Check and add experience if provided
+    const experienceData = Object.keys(formData)
+        .filter(key => key.startsWith('company_'))
+        .map(key => {
+            const index = key.split('_')[1];
+            return {
+                company: formData.get(`company_${index}`) as string,
+                position: formData.get(`position_${index}`) as string,
+                startDate: formData.get(`startDate_${index}`) as string,
+                endDate: formData.get(`endDate_${index}`) as string,
+            }
+        });
+
+    if (experienceData.length > 0) {
+        createData.experience = { createMany: { data: experienceData } };
+    }
+
+    // Check and add skills if provided
+    const skillsData = Object.keys(formData)
+        .filter(key => key.startsWith('skill_'))
+        .map(key => ({
+            name: formData.get(key) as string
+        }));
+
+    if (skillsData.length > 0) {
+        createData.skills = { createMany: { data: skillsData } };
+    }
+
+    // Check and add certifications if provided
+    const certificationsData = Object.keys(formData)
+        .filter(key => key.startsWith('certification_'))
+        .map(key => ({
+            name: formData.get(key) as string
+        }));
+
+    if (certificationsData.length > 0) {
+        createData.certifications = { createMany: { data: certificationsData } };
+    }
+
+    // Check and add references if provided
+    const referencesData = Object.keys(formData)
+        .filter(key => key.startsWith('reference_'))
+        .map(key => ({
+            name: formData.get(key) as string
+        }));
+
+    if (referencesData.length > 0) {
+        createData.references = { createMany: { data: referencesData } };
+    }
+
+    // Create the resume with all provided data
+    const newResume = await prisma.resume.create({
+        data: createData
     });
 
-    console.log(newTemplate);
-
-    if (newTemplate) {
+    if (newResume) {
         return {
             success: true,
             message: "New resume created successfully",
-            newTemplate
+            newResume
         }
     } else {
         return {
             success: false,
-            message: "An error occured",
-            newTemplate
+            message: "An error occurred",
+            newResume: null
         }
     }
 }
