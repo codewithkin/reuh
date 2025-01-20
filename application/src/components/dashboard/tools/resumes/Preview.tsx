@@ -5,7 +5,16 @@ import { Eye, Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ResumePreview({ resume }: { resume: Resume & { certifications: Certification[], references: Reference[], skills: Skill[], experience: Experience[] } }) {
+export default function ResumePreview({
+  resume,
+}: {
+  resume: Resume & {
+    certifications: Certification[];
+    references: Reference[];
+    skills: Skill[];
+    experience: Experience[];
+  };
+}) {
   // Destructure resumes data
   const { title, createdAt, template } = resume;
 

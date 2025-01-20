@@ -33,7 +33,12 @@ export async function POST(request: Request) {
     const file = formData.get("file") as File;
 
     // Check if the file is a PDF, DOCX, TXT, or RTF
-    if (file?.type !== "application/pdf" && file?.type !== "application/msword" && file?.type !== "text/plain" && file?.type !== "application/rtf") {
+    if (
+      file?.type !== "application/pdf" &&
+      file?.type !== "application/msword" &&
+      file?.type !== "text/plain" &&
+      file?.type !== "application/rtf"
+    ) {
       console.log("Invalid file type");
       return NextResponse.json(
         { error: "Invalid file type. Please upload a PDF, DOCX, TXT, or RTF." },

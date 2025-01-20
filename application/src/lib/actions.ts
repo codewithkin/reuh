@@ -144,8 +144,8 @@ export async function createNewResumeWithDetails(formData: FormData) {
           {
             degree: formData.get("degree_1") as string,
             institution: formData.get("institution_1") as string,
-            startDate: formData.get("startDate_1")?.toString() as string,
-            endDate: formData.get("endDate_1")?.toString() as string,
+            startDate: new Date(`${formData.get("startDate_1")}T00:00:00.000Z`).toISOString(),
+            endDate: new Date(`${formData.get("endDate_1")}T00:00:00.000Z`).toISOString(),
             location: formData.get("location_1") as string,
             description: formData.get("description_1") as string,
           },
@@ -166,8 +166,8 @@ export async function createNewResumeWithDetails(formData: FormData) {
           {
             company: formData.get("company_1") as string,
             position: formData.get("position_1") as string,
-            startDate: formData.get("startDate_1") as string,
-            endDate: formData.get("endDate_1") as string,
+            startDate: new Date(`${formData.get("startDate_1")}T00:00:00.000Z`).toISOString(),
+            endDate: new Date(`${formData.get("endDate_1")}T00:00:00.000Z`).toISOString(),
             location: formData.get("location_1") as string,
             description: formData.get("description_1") as string,
             technologies: (formData.get("technologies_1") as string)?.split(",") || [],
