@@ -12,11 +12,11 @@ export default function RecentActivity({ notifications }: { notifications: notif
       <article className="flex flex-col gap-2">
         {notifications.length > 0 ? (
           notifications.map((notification: notification) => {
-            const { title, success, createdOn, read, resource } = notification;
+            const { createdAt, message, read, description } = notification;
 
             return (
               <motion.article
-                key={createdOn.toDateString()}
+                key={createdAt.toDateString()}
                 initial={{
                   x: -100,
                 }}
@@ -28,12 +28,11 @@ export default function RecentActivity({ notifications }: { notifications: notif
                 <article className="flex gap-2 items-center">
                   <article className="w-4 h-4 rounded-full bg-secondaryLight"></article>
                   <article className="flex flex-col">
-                    <h2 className="font-semibold">{title}</h2>
-                    <p className="text-dullDark text-sm">Resource: {resource}</p>
+                    <p className="text-dullDark text-sm">{message}</p>
                   </article>
                 </article>
 
-                <p className="text-dulldark">{createdOn.toDateString()}</p>
+                <p className="text-dulldark">{createdAt.toDateString()}</p>
 
                 <Button color="secondary" size="icon">
                   <MoreHorizontal />

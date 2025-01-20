@@ -22,13 +22,27 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Bell, CheckCheck } from "lucide-react";
+import { Bell, CheckCheck, Loader2 } from "lucide-react";
 import { notification } from "@/types/notification";
 import Notification from "./Notification";
+import { markNotificationsAsReadAction } from "@/lib/actions";
 
 export function Notifications({ notifications }: { notifications: notification[] }) {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [pendingNotificationSetRead, setPending] = React.useState<boolean>(false);
+
+  const markNotificationsAsRead = async () => {
+    try {
+      setPending(true);
+      // Mark all notifications as read
+      await markNotificationsAsReadAction();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setPending(false);
+    }
+  };
 
   if (isDesktop) {
     return (
@@ -58,8 +72,17 @@ export function Notifications({ notifications }: { notifications: notification[]
             <DrawerClose asChild>
               <Button variant="outline">Close</Button>
             </DrawerClose>
-            <Button disabled={notifications.length === 0} className="flex items-center gap-2">
-              <CheckCheck size={20} />
+            <Button
+              type="button"
+              onClick={markNotificationsAsRead}
+              disabled={notifications.length === 0 || pendingNotificationSetRead}
+              className="flex items-center gap-2"
+            >
+              {pendingNotificationSetRead ? (
+                <Loader2 className="animate-spin 2-4 h-4" />
+              ) : (
+                <CheckCheck size={20} />
+              )}
               Mark all as read
             </Button>
           </DialogFooter>

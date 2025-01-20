@@ -1,26 +1,22 @@
 import { notification } from "@/types/notification";
-import { Check, TriangleAlert } from "lucide-react";
+import { Check, InfoIcon, TriangleAlert } from "lucide-react";
+import { Badge } from "../ui/badge";
 
 export default function Notification({ notification }: { notification: notification }) {
-  const { title, resource, read, createdOn, success } = notification;
+  const { message, read, description, createdAt } = notification;
 
   return (
     <article className="flex gap-2 items-center">
-      {success ? (
-        <article className=" bg-secondaryLight rounded-full text-white p-2 flex flex-col items-center justify-center">
-          <Check size={18} />
-        </article>
-      ) : (
-        <article className=" bg-danger rounded-full text-white p-2 flex flex-col items-center justify-center">
-          <TriangleAlert size={18} />
-        </article>
-      )}
+      <InfoIcon size={18} />
       <article className="flex flex-col">
-        <h2 className="font-medium">{title}</h2>
+        <h2 className="font-medium">{message}</h2>
         <article className="flex gap-2">
           {/* Unread: Chip */}
+          <Badge className={`${!read && "bg-primaryLight"}`} variant={read ? "outline" : "default"}>
+            {read ? "read" : "unread"}
+          </Badge>
 
-          <p className="text-sm text-dullDark">{createdOn.toTimeString()}</p>
+          <p className="text-sm text-dullDark">{createdAt.toTimeString()}</p>
         </article>
       </article>
     </article>

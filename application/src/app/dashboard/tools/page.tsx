@@ -51,7 +51,7 @@ export default function Tools() {
               className="hover:bg-purple-500 hover:text-primaryDark transition duration-300 bg-primaryLight text-primaryDark"
               color="primary"
             >
-              <Link href="/dashboard/tools/resume-builder">New Resume</Link>
+              <Link href="/dashboard/resume-builder">New Resume</Link>
             </Button>
           </CardFooter>
         </Card>
@@ -78,7 +78,7 @@ export default function Tools() {
               className="hover:bg-purple-500 hover:text-primaryDark transition duration-300 bg-white text-primaryDark"
               color="primary"
             >
-              <Link href="/dashboard/tools/cover-letter-builder">New Cover Letter</Link>
+              <Link href="/dashboard/cover-letter-builder">New Cover Letter</Link>
             </Button>
           </CardFooter>
         </Card>
@@ -105,9 +105,7 @@ export default function Tools() {
               className="hover:bg-purple-500 hover:text-primaryDark transition duration-300 bg-primaryLight text-primaryDark"
               color="primary"
             >
-              <Link href="/dashboard/tools/interview-question-generator">
-                New Interview Prep Session
-              </Link>
+              <Link href="/dashboard/interview-question-generator">New Interview Prep Session</Link>
             </Button>
           </CardFooter>
         </Card>
@@ -134,7 +132,7 @@ export default function Tools() {
               className="hover:bg-purple-500 hover:text-primaryDark transition duration-300 bg-white text-primaryDark"
               color="primary"
             >
-              <Link href="/dashboard/tools/headshot-generator">New Headshot</Link>
+              <Link href="/dashboard/headshot-generator">New Headshot</Link>
             </Button>
           </CardFooter>
         </Card>

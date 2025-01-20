@@ -3,6 +3,7 @@ import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "../../prisma";
 import { improveResume } from "./ai/improveResume";
+import OpenAI from "openai";
 
 export async function Logout() {
   // Sign out
@@ -240,5 +241,88 @@ export async function getImprovedResume(resumeData: any) {
   } catch (error) {
     console.error("Error improving resume:", error);
     return resumeData; // Fallback to original data if AI fails
+  }
+}
+
+export async function markNotificationsAsReadAction() {
+  const session = await auth();
+
+  const id = session?.user?.id;
+
+  await prisma.notifications.updateMany({
+    where: {
+      userId: id,
+    },
+    data: {
+      read: true,
+    },
+  });
+}
+
+async function generateCoverLetterWithAI (data: { name: FormDataEntryValue | null, position: FormDataEntryValue | null, company: FormDataEntryValue | null, skills: FormDataEntryValue | null, description: FormDataEntryValue | null }) {
+  const { name, skills, company, description, position } = data;
+
+  const openai = new OpenAI();
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4o",
+    store: true,
+    messages: [
+      { "role": "system", "content": "You are an expert cover letter writer. When provided a cover letter and relevant user information, you will geenrate a high quality, optimized cover letter combining the user's relevant skills with the job description to craft a professional cover letter that hits all of the necessary keywords." },
+        {"role": "user", "content": `Name: ${name}, company: ${company}, job description: ${description}, my relevant skills: ${skills}, position: ${position}`}
+    ]
+});
+
+const content = completion.choices[0].message;
+
+return content;
+}
+
+export async function createCoverLetter(formData: FormData) {
+  const session = await auth();
+  if (!session?.user?.email) throw new Error("Not authenticated");
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+
+  if (!user?.id) throw new Error("User not found");
+
+  const response = await generateCoverLetterWithAI({name: formData.get("name"), company: formData.get("company"), skills: formData.get("skills"), description: formData.get("description"), position: formData.get("position")})
+
+  const createData: any = {
+    userId: user.id,
+    content: response.content,
+    company: formData.get("company") as string,
+    position: formData.get("position")
+  };
+
+  try {
+    const newCoverLetter = await prisma.coverLetter.create({
+      data: createData,
+    });
+
+    // Create a new notification
+    await prisma.notifications.create({
+      data: {
+        message: "New cover letter created",
+        description: "Your cover letter has been created successfully",
+        userId: user.id,
+      },
+    });
+
+    console.log("Cover letter: ", newCoverLetter);
+
+    return {
+      success: true,
+      message: "New cover letter created successfully",
+      newCoverLetter,
+    };
+  } catch (error) {
+    console.error("Error creating cover letter:", error);
+    return {
+      success: false,
+      message: "Error creating cover letter: " + (error as Error).message,
+      newCoverLetter: null,
+    };
   }
 }
