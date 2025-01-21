@@ -259,7 +259,13 @@ export async function markNotificationsAsReadAction() {
   });
 }
 
-async function generateCoverLetterWithAI (data: { name: FormDataEntryValue | null, position: FormDataEntryValue | null, company: FormDataEntryValue | null, skills: FormDataEntryValue | null, description: FormDataEntryValue | null }) {
+async function generateCoverLetterWithAI(data: {
+  name: FormDataEntryValue | null;
+  position: FormDataEntryValue | null;
+  company: FormDataEntryValue | null;
+  skills: FormDataEntryValue | null;
+  description: FormDataEntryValue | null;
+}) {
   const { name, skills, company, description, position } = data;
 
   const openai = new OpenAI();
@@ -267,14 +273,21 @@ async function generateCoverLetterWithAI (data: { name: FormDataEntryValue | nul
     model: "gpt-4o",
     store: true,
     messages: [
-      { "role": "system", "content": "You are an expert cover letter writer. When provided a cover letter and relevant user information, you will geenrate a high quality, optimized cover letter combining the user's relevant skills with the job description to craft a professional cover letter that hits all of the necessary keywords." },
-        {"role": "user", "content": `Name: ${name}, company: ${company}, job description: ${description}, my relevant skills: ${skills}, position: ${position}`}
-    ]
-});
+      {
+        role: "system",
+        content:
+          "You are an expert cover letter writer. When provided a cover letter and relevant user information, you will geenrate a high quality, optimized cover letter combining the user's relevant skills with the job description to craft a professional cover letter that hits all of the necessary keywords.",
+      },
+      {
+        role: "user",
+        content: `Name: ${name}, company: ${company}, job description: ${description}, my relevant skills: ${skills}, position: ${position}`,
+      },
+    ],
+  });
 
-const content = completion.choices[0].message;
+  const content = completion.choices[0].message;
 
-return content;
+  return content;
 }
 
 export async function createCoverLetter(formData: FormData) {
@@ -287,13 +300,19 @@ export async function createCoverLetter(formData: FormData) {
 
   if (!user?.id) throw new Error("User not found");
 
-  const response = await generateCoverLetterWithAI({name: formData.get("name"), company: formData.get("company"), skills: formData.get("skills"), description: formData.get("description"), position: formData.get("position")})
+  const response = await generateCoverLetterWithAI({
+    name: formData.get("name"),
+    company: formData.get("company"),
+    skills: formData.get("skills"),
+    description: formData.get("description"),
+    position: formData.get("position"),
+  });
 
   const createData: any = {
     userId: user.id,
     content: response.content,
     company: formData.get("company") as string,
-    position: formData.get("position")
+    position: formData.get("position"),
   };
 
   try {

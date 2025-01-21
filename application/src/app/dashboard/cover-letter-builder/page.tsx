@@ -1,79 +1,318 @@
+"use client";
 import CreateCoverLetterButton from "@/components/dashboard/cover-letter-builder/CreateCoverLetterBtn";
+import Accordion from "@/components/my-components/Accordion";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createCoverLetter } from "@/lib/actions";
-import { Loader, PersonStanding } from "lucide-react";
+import { CoverLetter } from "@prisma/client";
+import { Building, Check, CheckCheck, Clipboard as ClipboardIcon, User2 } from "lucide-react";
+import Link from "next/link";
+import { FormEvent, useState } from "react";
+import { toast } from "sonner";
 
 export default function CreateCoverLetter() {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [coverLetter, setCoverLetter] = useState<CoverLetter | null>();
+
+  const [copied, setCopied] = useState<boolean>(false);
+
+  const handleCreateNewCoverLetter = async (e: FormEvent<HTMLFormElement>) => {
+    try {
+      setLoading(true);
+
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      const { success, newCoverLetter, message } = await createCoverLetter(formData);
+
+      if (success && newCoverLetter) {
+        setCoverLetter(newCoverLetter);
+        toast.success(message);
+      } else {
+        toast.success(message);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <form
-      action={async (formData: FormData) => {
-        "use server";
-
-        await createCoverLetter(formData);
-      }}
+      onSubmit={handleCreateNewCoverLetter}
       className="py-4 md:py-12 overflow-y-scroll h-screen md:pb-8 md:px-4"
     >
-      <h2 className="text-2xl font-semibold">Let's create your Cover Letter</h2>
-      <div className="mt-4 flex flex-col gap-1">
-        <Label htmlFor="name">Your Name</Label>
-        <Input
-          type="text"
-          name="name"
-          required
-          placeholder="John Doe"
-          className="md:max-w-[400px]"
-        />
-      </div>
-    
-      <div className="mt-4 flex flex-col gap-1">
-        <Label htmlFor="skills">Your Skills (fit for this job)</Label>
-        <Input
-          type="text"
-          required
-          name="skills"
-          placeholder="JavaScript, ReactJS, PHP"
-          className="md:max-w-[400px]"
-        />
-      </div>
+      {!coverLetter ? (
+        <article className="flex flex-col justify-center items-center">
+          <h2 className="text-2xl font-semibold">Let's create your Cover Letter</h2>
+          <article className="flex flex-col gap-2 mt-4">
+            <Accordion className="min-w-[400px]" icon={<User2 />} title="Personal Information">
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="name">Your Name</Label>
+                <Input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder="John Doe"
+                  className="md:min-w-[400px]"
+                />
+              </div>
 
-      <div className="mt-4 flex flex-col gap-1">
-        <Label htmlFor="position">Position</Label>
-        <Input
-          type="text"
-          required
-          name="position"
-          placeholder="Frontend Developer"
-          className="md:max-w-[400px]"
-        />
-      </div>
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="address">Address</Label>
+                <Input
+                  type="text"
+                  name="address"
+                  required
+                  placeholder="123 Main St"
+                  className="md:min-w-[400px]"
+                />
+              </div>
 
-      <div className="mt-4 flex flex-col gap-1">
-        <Label htmlFor="company">Company Name</Label>
-        <Input
-          type="text"
-          name="company"
-          required
-          placeholder="Microsoft Corporation"
-          className="md:max-w-[400px]"
-        />
-      </div>
-      <div className="mt-4 flex flex-col gap-1">
-        <Label htmlFor="description">Job Description</Label>
-        <Textarea
-          name="description"
-          required
-          placeholder="We need a developer who can Develop and implement new user-facing features for products with significant daily page views.
-Write client-side code to create fast, intuitive web-based applications for both desktop and mobile browsers, including hybrid in-app pages.
-Optimize web applications to ensure high performance and scalability.
-"
-          className="min-h-[100px] md:max-w-[400px]"
-        />
-      </div>
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="city">City</Label>
+                <Input
+                  type="text"
+                  name="city"
+                  required
+                  placeholder="Your City"
+                  className="md:min-w-[400px]"
+                />
+              </div>
 
-      <CreateCoverLetterButton />
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="state">State</Label>
+                <Input
+                  type="text"
+                  name="state"
+                  required
+                  placeholder="Your State"
+                  className="md:min-w-[400px]"
+                />
+              </div>
+
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="zip">ZIP Code</Label>
+                <Input
+                  type="text"
+                  name="zip"
+                  required
+                  placeholder="12345"
+                  className="md:min-w-[400px]"
+                />
+              </div>
+
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="email">Email Address</Label>
+                <Input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="example@example.com"
+                  className="md:min-w-[400px]"
+                />
+              </div>
+
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="phone">Phone Number</Label>
+                <Input
+                  type="tel"
+                  name="phone"
+                  required
+                  placeholder="(123) 456-7890"
+                  className="md:min-w-[400px]"
+                />
+              </div>
+
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="date">Date</Label>
+                <Input type="date" name="date" required className="md:min-w-[400px]" />
+              </div>
+            </Accordion>
+
+            {/* Company Information */}
+            <Accordion className="min-w-[400px]" icon={<Building />} title="Company Information">
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="companyName">Company Name</Label>
+                <Input
+                  type="text"
+                  name="companyName"
+                  required
+                  placeholder="Deel"
+                  className="md:min-w-[400px]"
+                />
+              </div>
+
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="companyAddress">Company Address</Label>
+                <Input
+                  type="text"
+                  name="companyAddress"
+                  required
+                  placeholder="123 Company St"
+                  className="md:min-w-[400px]"
+                />
+              </div>
+
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="companyCity">City</Label>
+                <Input
+                  type="text"
+                  name="companyCity"
+                  required
+                  placeholder="Company City"
+                  className="md:min-w-[400px]"
+                />
+              </div>
+
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="companyState">State</Label>
+                <Input
+                  type="text"
+                  name="companyState"
+                  required
+                  placeholder="Company State"
+                  className="md:min-w-[400px]"
+                />
+              </div>
+
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="companyZip">ZIP Code</Label>
+                <Input
+                  type="text"
+                  name="companyZip"
+                  required
+                  placeholder="12345"
+                  className="md:min-w-[400px]"
+                />
+              </div>
+
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="hiringManager">Hiring Manager</Label>
+                <Input
+                  type="text"
+                  name="hiringManager"
+                  required
+                  placeholder="Hiring Manager Name"
+                  className="md:min-w-[400px]"
+                />
+              </div>
+
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="companyEmail">Company Email</Label>
+                <Input
+                  type="email"
+                  name="companyEmail"
+                  required
+                  placeholder="contact@company.com"
+                  className="md:min-w-[400px]"
+                />
+              </div>
+
+              <div className="mt-4 flex flex-col gap-1">
+                <Label htmlFor="companyPhone">Company Phone</Label>
+                <Input
+                  type="tel"
+                  name="companyPhone"
+                  required
+                  placeholder="(123) 456-7890"
+                  className="md:min-w-[400px]"
+                />
+              </div>
+            </Accordion>
+
+            <div className="mt-2 flex flex-col gap-1">
+                <Label htmlFor="description">Job Description</Label>
+                <Textarea
+                  name="description"
+                  required
+                  placeholder="We need a frontend developer..."
+                  className="md:min-w-[400px] min-h-[100px]"
+                />
+              </div>
+          </article>
+
+          <CreateCoverLetterButton pending={loading} />
+        </article>
+      ) : (
+        <article className="flex flex-col justify-center items-center">
+          <article className="my-4">
+            <h2 className="text-2xl font-semibold text-center">Here it is</h2>
+            <p className="text-dullDark text-center">
+              You can copy your cover letter or view it later
+            </p>
+          </article>
+
+          <Card className="rounded-none flex flex-col justify-center text-primaryDark">
+            <CardHeader>
+              <CardTitle className="text-primaryDark text-2xl">{coverLetter.company}</CardTitle>
+              <p className="textDullDark">{coverLetter.position}</p>
+            </CardHeader>
+
+            <CardDescription className="flex flex-col text-primaryDark mb-4 whitespace-pre-wrap px-4">
+              {coverLetter.content}
+            </CardDescription>
+
+            <CardFooter className="flex gap-2">
+              {copied ? (
+                <Button
+                  className="border-primaryLight text-primaryLight flex gap-2 items-center"
+                  variant="outline"
+                  onClick={() => {
+                    // Copy / Uncopy the cover letter content
+                    navigator.clipboard.writeText("");
+
+                    // Show a toast
+                    toast("Cover Letter successfully removed from clipboard");
+
+                    // Update the copied state
+                    setCopied(!copied);
+                  }}
+                >
+                  <CheckCheck size={20} />
+                  Copied
+                </Button>
+              ) : (
+                <Button
+                  className="bg-primaryLight text-white flex gap-2 items-center"
+                  onClick={() => {
+                    // Copy / Uncopy the cover letter content
+                    navigator.clipboard.writeText(coverLetter.content);
+
+                    // Show a toast
+                    toast.success("Cover Letter successfully copied to clipboard");
+
+                    // Update the copied state
+                    setCopied(!copied);
+                  }}
+                >
+                  <ClipboardIcon size={20} />
+                  Copy
+                </Button>
+              )}
+              <Button
+                variant="outline"
+                className="bg-secondaryLight hover:bg-green-800 transition duration-300"
+              >
+                <Link className="flex gap-2 items-center" href="/dashboard">
+                  <Check size={20} />
+                  Done
+                </Link>
+              </Button>
+            </CardFooter>
+          </Card>
+        </article>
+      )}
     </form>
   );
 }

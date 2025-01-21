@@ -6,15 +6,17 @@ export default function Accordion({
   children,
   title,
   icon,
+  className,
 }: {
   children: ReactNode;
   title: string;
   icon?: ReactNode;
+  className?: string;
 }) {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <article className="flex flex-col p-4 rounded-xl border border-dullDark">
+    <article className={`flex flex-col p-4 rounded-xl border border-dullDark ${className}`}>
       <article className="flex justify-between items-center">
         <article className="flex gap-2">
           <article className="w-8 h-8 rounded-md flex justify-center items-center border border-dullDark text-dullDark">
