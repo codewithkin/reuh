@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "../../prisma";
 import { improveResume } from "./ai/improveResume";
 import OpenAI from "openai";
+import { connect } from "http2";
 
 export async function Logout() {
   // Sign out
@@ -258,15 +259,16 @@ export async function markNotificationsAsReadAction() {
     },
   });
 }
-
 async function generateCoverLetterWithAI(data: {
   name: FormDataEntryValue | null;
   position: FormDataEntryValue | null;
   company: FormDataEntryValue | null;
+  companyName: FormDataEntryValue | null;
+  companyAddress: FormDataEntryValue | null;
   skills: FormDataEntryValue | null;
   description: FormDataEntryValue | null;
 }) {
-  const { name, skills, company, description, position } = data;
+  const { name, skills, company, companyName, companyAddress, description, position } = data;
 
   const openai = new OpenAI();
   const completion = await openai.chat.completions.create({
@@ -275,12 +277,20 @@ async function generateCoverLetterWithAI(data: {
     messages: [
       {
         role: "system",
-        content:
-          "You are an expert cover letter writer. When provided a cover letter and relevant user information, you will geenrate a high quality, optimized cover letter combining the user's relevant skills with the job description to craft a professional cover letter that hits all of the necessary keywords.",
+        content: `
+          You are an expert cover letter writer. Your task is to create a high-quality, professional cover letter tailored to the provided job description, company, and role.
+  
+          - The cover letter should focus on highlighting the user's relevant skills and experiences, connecting them directly to the job requirements.
+          - Use a formal yet approachable tone.
+          - Do not include placeholder contact information like [Your Address], [City, State, ZIP Code], [Email Address], or [Phone Number]. Instead, assume this information will be added separately.
+          - Do not include a placeholder recipient name like "Hiring Manager." Use the provided recipient name or leave it generic if not specified.
+          - Structure the letter with an engaging opening paragraph, a detailed body emphasizing skills and achievements relevant to the role, and a closing paragraph that expresses enthusiasm and invites further communication.
+          - Keep the letter concise, typically between 200-300 words.
+        `,
       },
       {
         role: "user",
-        content: `Name: ${name}, company: ${company}, job description: ${description}, my relevant skills: ${skills}, position: ${position}`,
+        content: `My Name: ${name}, company: ${company}, company name: ${companyName}, company address: ${companyAddress}, job description: ${description}, my relevant skills: ${skills}, position: ${position}`,
       },
     ],
   });
@@ -303,21 +313,30 @@ export async function createCoverLetter(formData: FormData) {
   const response = await generateCoverLetterWithAI({
     name: formData.get("name"),
     company: formData.get("company"),
+    companyName: formData.get("companyName"),
+    companyAddress: formData.get("companyAddress"),
     skills: formData.get("skills"),
     description: formData.get("description"),
     position: formData.get("position"),
   });
 
   const createData: any = {
-    userId: user.id,
     content: response.content,
-    company: formData.get("company") as string,
     position: formData.get("position"),
+    companyName: formData.get("companyName") as string,
+    companyAddress: formData.get("companyAddress") as string
   };
 
   try {
     const newCoverLetter = await prisma.coverLetter.create({
-      data: createData,
+      data: {
+        ...createData,
+        user: {
+          connect: {
+            id: user.id
+          }
+        }
+      },
     });
 
     // Create a new notification
@@ -325,7 +344,7 @@ export async function createCoverLetter(formData: FormData) {
       data: {
         message: "New cover letter created",
         description: "Your cover letter has been created successfully",
-        userId: user.id,
+        userId: user.id
       },
     });
 
@@ -340,7 +359,7 @@ export async function createCoverLetter(formData: FormData) {
     console.error("Error creating cover letter:", error);
     return {
       success: false,
-      message: "Error creating cover letter: " + (error as Error).message,
+      message: "Error creating cover letter, please try again later",
       newCoverLetter: null,
     };
   }

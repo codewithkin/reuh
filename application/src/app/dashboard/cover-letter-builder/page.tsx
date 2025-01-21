@@ -38,7 +38,7 @@ export default function CreateCoverLetter() {
         setCoverLetter(newCoverLetter);
         toast.success(message);
       } else {
-        toast.success(message);
+        toast.error(message);
       }
     } catch (error) {
       console.error(error);
@@ -56,6 +56,7 @@ export default function CreateCoverLetter() {
         <article className="flex flex-col justify-center items-center">
           <h2 className="text-2xl font-semibold">Let's create your Cover Letter</h2>
           <article className="flex flex-col gap-2 mt-4">
+            {/* Personal Information */}
             <Accordion className="min-w-[400px]" icon={<User2 />} title="Personal Information">
               <div className="mt-4 flex flex-col gap-1">
                 <Label htmlFor="name">Your Name</Label>
@@ -64,50 +65,6 @@ export default function CreateCoverLetter() {
                   name="name"
                   required
                   placeholder="John Doe"
-                  className="md:min-w-[400px]"
-                />
-              </div>
-
-              <div className="mt-4 flex flex-col gap-1">
-                <Label htmlFor="address">Address</Label>
-                <Input
-                  type="text"
-                  name="address"
-                  required
-                  placeholder="123 Main St"
-                  className="md:min-w-[400px]"
-                />
-              </div>
-
-              <div className="mt-4 flex flex-col gap-1">
-                <Label htmlFor="city">City</Label>
-                <Input
-                  type="text"
-                  name="city"
-                  required
-                  placeholder="Your City"
-                  className="md:min-w-[400px]"
-                />
-              </div>
-
-              <div className="mt-4 flex flex-col gap-1">
-                <Label htmlFor="state">State</Label>
-                <Input
-                  type="text"
-                  name="state"
-                  required
-                  placeholder="Your State"
-                  className="md:min-w-[400px]"
-                />
-              </div>
-
-              <div className="mt-4 flex flex-col gap-1">
-                <Label htmlFor="zip">ZIP Code</Label>
-                <Input
-                  type="text"
-                  name="zip"
-                  required
-                  placeholder="12345"
                   className="md:min-w-[400px]"
                 />
               </div>
@@ -132,11 +89,6 @@ export default function CreateCoverLetter() {
                   placeholder="(123) 456-7890"
                   className="md:min-w-[400px]"
                 />
-              </div>
-
-              <div className="mt-4 flex flex-col gap-1">
-                <Label htmlFor="date">Date</Label>
-                <Input type="date" name="date" required className="md:min-w-[400px]" />
               </div>
             </Accordion>
 
@@ -165,81 +117,26 @@ export default function CreateCoverLetter() {
               </div>
 
               <div className="mt-4 flex flex-col gap-1">
-                <Label htmlFor="companyCity">City</Label>
+                <Label htmlFor="position">Position Applied For</Label>
                 <Input
                   type="text"
-                  name="companyCity"
+                  name="position"
                   required
-                  placeholder="Company City"
-                  className="md:min-w-[400px]"
-                />
-              </div>
-
-              <div className="mt-4 flex flex-col gap-1">
-                <Label htmlFor="companyState">State</Label>
-                <Input
-                  type="text"
-                  name="companyState"
-                  required
-                  placeholder="Company State"
-                  className="md:min-w-[400px]"
-                />
-              </div>
-
-              <div className="mt-4 flex flex-col gap-1">
-                <Label htmlFor="companyZip">ZIP Code</Label>
-                <Input
-                  type="text"
-                  name="companyZip"
-                  required
-                  placeholder="12345"
-                  className="md:min-w-[400px]"
-                />
-              </div>
-
-              <div className="mt-4 flex flex-col gap-1">
-                <Label htmlFor="hiringManager">Hiring Manager</Label>
-                <Input
-                  type="text"
-                  name="hiringManager"
-                  required
-                  placeholder="Hiring Manager Name"
-                  className="md:min-w-[400px]"
-                />
-              </div>
-
-              <div className="mt-4 flex flex-col gap-1">
-                <Label htmlFor="companyEmail">Company Email</Label>
-                <Input
-                  type="email"
-                  name="companyEmail"
-                  required
-                  placeholder="contact@company.com"
-                  className="md:min-w-[400px]"
-                />
-              </div>
-
-              <div className="mt-4 flex flex-col gap-1">
-                <Label htmlFor="companyPhone">Company Phone</Label>
-                <Input
-                  type="tel"
-                  name="companyPhone"
-                  required
-                  placeholder="(123) 456-7890"
+                  placeholder="Software Engineer"
                   className="md:min-w-[400px]"
                 />
               </div>
             </Accordion>
 
             <div className="mt-2 flex flex-col gap-1">
-                <Label htmlFor="description">Job Description</Label>
-                <Textarea
-                  name="description"
-                  required
-                  placeholder="We need a frontend developer..."
-                  className="md:min-w-[400px] min-h-[100px]"
-                />
-              </div>
+              <Label htmlFor="description">Job Description</Label>
+              <Textarea
+                name="description"
+                required
+                placeholder="We need a frontend developer..."
+                className="md:min-w-[400px] min-h-[100px]"
+              />
+            </div>
           </article>
 
           <CreateCoverLetterButton pending={loading} />
