@@ -14,33 +14,33 @@ export default function RecentActivity({ notifications }: { notifications: notif
           notifications.map((notification: notification) => {
             const { createdAt, message, read, description } = notification;
 
-            if(!read) {
+            if (!read) {
               return (
-              <motion.article
-                key={createdAt.toDateString()}
-                initial={{
-                  x: -100,
-                }}
-                animate={{
-                  x: 1,
-                }}
-                className="flex justify-between items-center"
-              >
-                <article className="flex gap-2 items-center">
-                  <article className="w-4 h-4 rounded-full bg-secondaryLight"></article>
-                  <article className="flex flex-col">
-                    <p className="text-dullDark text-sm">{message}</p>
+                <motion.article
+                  key={createdAt.toDateString()}
+                  initial={{
+                    x: -100,
+                  }}
+                  animate={{
+                    x: 1,
+                  }}
+                  className="flex justify-between items-center"
+                >
+                  <article className="flex gap-2 items-center">
+                    <article className="w-4 h-4 rounded-full bg-secondaryLight"></article>
+                    <article className="flex flex-col">
+                      <p className="text-dullDark text-sm">{message}</p>
+                    </article>
                   </article>
-                </article>
 
-                <p className="text-dulldark">{createdAt.toDateString()}</p>
+                  <p className="text-dulldark">{createdAt.toDateString()}</p>
 
-                <Button color="secondary" size="icon">
-                  <MoreHorizontal />
-                </Button>
-              </motion.article>
-            );
-          }
+                  <Button color="secondary" size="icon">
+                    <MoreHorizontal />
+                  </Button>
+                </motion.article>
+              );
+            }
           })
         ) : (
           <p className="text-dullDark">No recent activity</p>

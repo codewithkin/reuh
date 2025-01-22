@@ -327,7 +327,7 @@ export async function createCoverLetter(formData: FormData) {
     content: response.content,
     position: formData.get("position"),
     companyName: formData.get("companyName") as string,
-    companyAddress: formData.get("companyAddress") as string
+    companyAddress: formData.get("companyAddress") as string,
   };
 
   try {
@@ -336,9 +336,9 @@ export async function createCoverLetter(formData: FormData) {
         ...createData,
         user: {
           connect: {
-            id: user.id
-          }
-        }
+            id: user.id,
+          },
+        },
       },
     });
 
@@ -347,7 +347,7 @@ export async function createCoverLetter(formData: FormData) {
       data: {
         message: "New cover letter created",
         description: "Your cover letter has been created successfully",
-        userId: user.id
+        userId: user.id,
       },
     });
 
