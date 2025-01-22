@@ -36,7 +36,3 @@
 
 # Prisma
 **/prisma
-
-# Auth
-**/auth.config.ts
-**/auth.ts
