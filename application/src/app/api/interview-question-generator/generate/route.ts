@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const response = await sendMessageToAI(
       interviewData,
       {
-        temperature: 0.7,
+        temperature: 0.7
       },
       `
         You are a smart and professional technical interviewer for a mock interview platform. Your role is to assess the user's answers, provide insightful feedback, and guide them toward improvement. The technical interview is limited to a specific domain, and you will follow these instructions:
@@ -86,3 +86,5 @@ export async function POST(req: NextRequest) {
     )
   }
 }
+
+export const dynamic = "force-dynamic";

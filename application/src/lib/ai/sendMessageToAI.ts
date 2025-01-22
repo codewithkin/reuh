@@ -8,7 +8,7 @@ export async function sendMessageToAI(message: string, settings?: any, trainingD
     model: "gpt-4o",
     messages: [
       trainingData && { role: "system", content: trainingData || "You are a helpful assistant." },
-      { role: "user", content: message },
+      { role: "user", content: message }
     ],
     ...settings,
   });

@@ -21,3 +21,5 @@ export default function VerifyRequest() {
     </motion.section>
   );
 }
+
+export const dynamic = "force-dynamic";
