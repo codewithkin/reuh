@@ -25,12 +25,15 @@ export default function CoverLetterPreview({ coverLetter }: { coverLetter: Cover
       </CardHeader>
 
       <CardContent>
-        <CardTitle>{coverLetter.title}</CardTitle>
+        <article>
+          <CardTitle className="text-xl">{coverLetter.companyName}</CardTitle>
+          <p className="text-dullDark text-sm">{coverLetter.position}</p>
+        </article>
         <CardDescription>{splittedContent}</CardDescription>
       </CardContent>
 
       <CardFooter className="grid gap-2">
-        <p className="text-dullDark">Created on {coverLetter.createdAt.toLocaleDateString()}</p>
+        <p className="text-dullDark">Created on {coverLetter.createdAt.toString()}</p>
         {copied ? (
           <Button
             variant="secondary"
