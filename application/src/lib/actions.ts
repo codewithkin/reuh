@@ -5,6 +5,7 @@ import { prisma } from "../../prisma";
 import { improveResume } from "./ai/improveResume";
 import OpenAI from "openai";
 import { connect } from "http2";
+import { revalidatePath } from "next/cache";
 
 export async function Logout() {
   // Sign out
@@ -258,6 +259,8 @@ export async function markNotificationsAsReadAction() {
       read: true,
     },
   });
+
+  revalidatePath("/dashboard");
 }
 async function generateCoverLetterWithAI(data: {
   name: FormDataEntryValue | null;

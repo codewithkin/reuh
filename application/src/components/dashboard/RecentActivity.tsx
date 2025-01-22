@@ -14,7 +14,8 @@ export default function RecentActivity({ notifications }: { notifications: notif
           notifications.map((notification: notification) => {
             const { createdAt, message, read, description } = notification;
 
-            return (
+            if(!read) {
+              return (
               <motion.article
                 key={createdAt.toDateString()}
                 initial={{
@@ -39,6 +40,7 @@ export default function RecentActivity({ notifications }: { notifications: notif
                 </Button>
               </motion.article>
             );
+          }
           })
         ) : (
           <p className="text-dullDark">No recent activity</p>

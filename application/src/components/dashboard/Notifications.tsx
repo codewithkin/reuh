@@ -52,12 +52,12 @@ export function Notifications({ notifications }: { notifications: notification[]
             <Bell size={25} />
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] h-full">
           <DialogHeader>
             <DialogTitle>Notifications</DialogTitle>
             <DialogDescription>Let's see what you've been up to</DialogDescription>
           </DialogHeader>
-          <article className="my-2 flex flex-col gap-2">
+          <article className="my-2 flex flex-col gap-2 overflow-y-scroll h-full">
             {notifications.length > 0 ? (
               notifications.map((notification: notification) => {
                 const { title, createdOn, success, resource, read } = notification;
