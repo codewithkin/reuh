@@ -1,5 +1,5 @@
 # .env inside all directories
-**/.    env
+**/.env
 
 # .env.local inside all directories
 **/.env.local
@@ -33,6 +33,3 @@
 
 # Next.js build
 **/build
-
-# Prisma
-**/prisma
