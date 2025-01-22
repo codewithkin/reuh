@@ -99,14 +99,14 @@ export default function CoverLetterGenerator() {
                 const {role, content} = entry;
 
                 return (
-                    <article>
+                    <article className={` ${role === "ai" && "items-end"} flex flex-col gap-1`}>
                         <article className={`rounded-xl hover:cursor-pointer whitespace-pre-wrap transition duration-300 shadow-sm hover:shadow-lg py-2 px-4 w-fit md:max-w-[400px] lg:max-w-[600px] text-sm ${role === "user" ? "bg-white text-primaryDark self-start" : "bg-primaryLight self-end text-white"}`}>
                             {content}
                         </article>
 
                         {/* Copy btn */}
-                        <Button onClick={() => navigator.clipboard.writeText(content)} size="icon">
-                            <Copy />
+                        <Button className="w-fit h-fit p-0 bg-transparent text-dullDark hover:bg-transparent" onClick={() => navigator.clipboard.writeText(content)} size="icon">
+                            <Copy size={10} />
                         </Button>
                     </article>
                 )
