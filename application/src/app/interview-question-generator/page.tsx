@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { root } from "@/constants/rootUrl";
-import { Bot, DoorOpen, Loader } from "lucide-react";
+import { Bot, Copy, DoorOpen, Loader } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -27,43 +27,48 @@ export default function CoverLetterGenerator() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
-        // Prevent the form from clearing on submit
-        e.preventDefault();
-
-        // Get the form data (one input with a name = "message")
-        const formData = new FormData(e.currentTarget);
-        const interviewData = formData.get("interviewData") as string;
-
-        // Show the loading spinner
-        setLoading(true);
-
-        // Send a request to the AI
-        const res = await fetch(
+      e.preventDefault();
+  
+      const formData = new FormData(e.currentTarget);
+      const interviewData = formData.get("interviewData") as string;
+  
+      setLoading(true);
+  
+      // Add the user's message to the conversationData
+      setConversationData((prevData) => [
+        ...prevData,
+        { role: "user", content: interviewData },
+      ]);
+  
+      // Send a request to the AI
+      const res = await fetch(
         `${root}/api/interview-question-generator/generate`,
-        { method: "POST", body: JSON.stringify({ interviewData }) }
-        );
-
-        const data: { success: boolean; message: string; response?: string } = await res.json();
-
-        const { success, message, response } = data;
-
-        if(success && response) {
-            if(conversationData.length > 0) {
-                setConversationData([...conversationData, {role: "ai", content: response}])
-            } else {
-                setConversationData([{ role: "ai", content: response }]);
-            }
-        } else {
-            toast.error(message);
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ interviewData }),
         }
-    } catch (e) {
-        console.log(e)
+      );
+  
+      const data: { success: boolean; message: string; response?: string } = await res.json();
+      const { success, message, response } = data;
+  
+      if (success && response) {
+        // Add the AI's response to the conversationData
+        setConversationData((prevData) => [
+          ...prevData,
+          { role: "ai", content: response },
+        ]);
+      } else {
+        toast.error(message);
+      }
+    } catch (error) {
+      console.error("Error during conversation update:", error);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
-
-  console.log("Conversation data: ", conversationData);
+  
 
   return (
     <section className="overflow-y-scroll h-screen bg-gradient-to-tr from-orange-200 to-purple-200 py-4">
@@ -86,10 +91,33 @@ export default function CoverLetterGenerator() {
         </article>
       </article>
 
+      {/* User and AI messages */}
+      <article className="flex flex-col gap-2 p-4">
+        {
+            conversationData.length > 0 &&
+            conversationData.map((entry: {role: string, content: string}) => {
+                const {role, content} = entry;
+
+                return (
+                    <article>
+                        <article className={`rounded-xl hover:cursor-pointer whitespace-pre-wrap transition duration-300 shadow-sm hover:shadow-lg py-2 px-4 w-fit md:max-w-[400px] lg:max-w-[600px] text-sm ${role === "user" ? "bg-white text-primaryDark self-start" : "bg-primaryLight self-end text-white"}`}>
+                            {content}
+                        </article>
+
+                        {/* Copy btn */}
+                        <Button onClick={() => navigator.clipboard.writeText(content)} size="icon">
+                            <Copy />
+                        </Button>
+                    </article>
+                )
+            })
+        }
+      </article>
+
       {/* Form */}
       <form
         onSubmit={handleSubmit}
-        className="flex gap-2 absolute bottom-4 w-full justify-center items-center"
+        className="flex gap-2 absolute bottom-1 md:bottom-4 w-full justify-center items-center"
       >
         <Button type="button" asChild className="shadow-xl rounded-full w-fit h-fit">
           <Link href="/dashboard">
