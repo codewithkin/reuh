@@ -15,4 +15,4 @@ export default async function Settings() {
   return <SettingsContent user={user} />;
 }
 
-export const dynamic = "force-dynamic"
+export const dynamic = "force-dynamic";

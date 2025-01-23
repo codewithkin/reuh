@@ -10,9 +10,9 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 type Conversation = {
-    role: string;
-    content: string;
-}
+  role: string;
+  content: string;
+};
 
 export default function CoverLetterGenerator() {
   const name = "Kin";
@@ -23,42 +23,33 @@ export default function CoverLetterGenerator() {
   const [loading, setLoading] = useState<boolean>(false);
 
   // Track the conversation data
-  const [conversationData, setConversationData] = useState<Array<Conversation>>([])
+  const [conversationData, setConversationData] = useState<Array<Conversation>>([]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-  
+
       const formData = new FormData(e.currentTarget);
       const interviewData = formData.get("interviewData") as string;
-  
+
       setLoading(true);
-  
+
       // Add the user's message to the conversationData
-      setConversationData((prevData) => [
-        ...prevData,
-        { role: "user", content: interviewData },
-      ]);
-  
+      setConversationData((prevData) => [...prevData, { role: "user", content: interviewData }]);
+
       // Send a request to the AI
-      const res = await fetch(
-        `${root}/api/interview-question-generator/generate`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ interviewData }),
-        }
-      );
-  
+      const res = await fetch(`${root}/api/interview-question-generator/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ interviewData }),
+      });
+
       const data: { success: boolean; message: string; response?: string } = await res.json();
       const { success, message, response } = data;
-  
+
       if (success && response) {
         // Add the AI's response to the conversationData
-        setConversationData((prevData) => [
-          ...prevData,
-          { role: "ai", content: response },
-        ]);
+        setConversationData((prevData) => [...prevData, { role: "ai", content: response }]);
       } else {
         toast.error(message);
       }
@@ -68,7 +59,6 @@ export default function CoverLetterGenerator() {
       setLoading(false);
     }
   };
-  
 
   return (
     <section className="overflow-y-scroll h-screen bg-gradient-to-tr from-orange-200 to-purple-200 py-4">
@@ -93,25 +83,29 @@ export default function CoverLetterGenerator() {
 
       {/* User and AI messages */}
       <article className="flex flex-col gap-2 p-4">
-        {
-            conversationData.length > 0 &&
-            conversationData.map((entry: {role: string, content: string}) => {
-                const {role, content} = entry;
+        {conversationData.length > 0 &&
+          conversationData.map((entry: { role: string; content: string }) => {
+            const { role, content } = entry;
 
-                return (
-                    <article className={` ${role === "ai" && "items-end"} flex flex-col gap-1`}>
-                        <article className={`rounded-xl hover:cursor-pointer whitespace-pre-wrap transition duration-300 shadow-sm hover:shadow-lg py-2 px-4 w-fit md:max-w-[400px] lg:max-w-[600px] text-sm ${role === "user" ? "bg-white text-primaryDark self-start" : "bg-primaryLight self-end text-white"}`}>
-                            {content}
-                        </article>
+            return (
+              <article className={` ${role === "ai" && "items-end"} flex flex-col gap-1`}>
+                <article
+                  className={`rounded-xl hover:cursor-pointer whitespace-pre-wrap transition duration-300 shadow-sm hover:shadow-lg py-2 px-4 w-fit md:max-w-[400px] lg:max-w-[600px] text-sm ${role === "user" ? "bg-white text-primaryDark self-start" : "bg-primaryLight self-end text-white"}`}
+                >
+                  {content}
+                </article>
 
-                        {/* Copy btn */}
-                        <Button className="w-fit h-fit p-0 bg-transparent text-dullDark hover:bg-transparent" onClick={() => navigator.clipboard.writeText(content)} size="icon">
-                            <Copy size={10} />
-                        </Button>
-                    </article>
-                )
-            })
-        }
+                {/* Copy btn */}
+                <Button
+                  className="w-fit h-fit p-0 bg-transparent text-dullDark hover:bg-transparent"
+                  onClick={() => navigator.clipboard.writeText(content)}
+                  size="icon"
+                >
+                  <Copy size={10} />
+                </Button>
+              </article>
+            );
+          })}
       </article>
 
       {/* Form */}
@@ -137,12 +131,12 @@ export default function CoverLetterGenerator() {
             className="rounded-full min-w-[300px] md:min-w-[400px] bg-white placeholder:text-dullDark focus-visible:ring-0 border-none"
           />
 
-          <Button className="bg-primaryLight hover:bg-primaryDark transition duration-300 rounded-full" type="submit">
-            {
-                loading &&
-                <Loader className="animate-spin" size={20} />
-            }
-            { loading ? "Sending..." : "Send" }
+          <Button
+            className="bg-primaryLight hover:bg-primaryDark transition duration-300 rounded-full"
+            type="submit"
+          >
+            {loading && <Loader className="animate-spin" size={20} />}
+            {loading ? "Sending..." : "Send"}
           </Button>
         </article>
       </form>

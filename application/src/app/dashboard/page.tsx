@@ -34,28 +34,28 @@ export default async function Dashboard() {
       count: coverLetters.length,
       percentage: 0,
       color: "bg-secondaryLight",
-      link: "cover-letter-builder",
+      link: "/dashboard/cover-letter-builder",
     },
     {
       title: "Headshots",
       count: headshots.length,
       percentage: 0,
       color: "bg-secondaryLight",
-      link: "headshot-generator",
+      link: "/dashboard/headshot-generator",
     },
     {
       title: "Interview Questions",
       count: interviewQuestions.length,
       percentage: 0,
       color: "bg-secondaryLight",
-      link: "mock-interview-generator",
+      link: "interview-question-generator",
     },
     {
       title: "Resumes",
       count: resumes.length,
       percentage: 0,
       color: "bg-secondaryLight",
-      link: "resume-builder",
+      link: "/dashboard/resume-builder",
     }
   );
 
@@ -108,4 +108,4 @@ export default async function Dashboard() {
   );
 }
 
-export const dynamic = "force-dynamic"
+export const dynamic = "force-dynamic";

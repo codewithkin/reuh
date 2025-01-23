@@ -28,7 +28,7 @@ function StatCard({ resource }: { resource: resource }) {
         </article>
         <Link
           className="bg-primaryDark rounded-full text-white py-2 px-4"
-          href={`/dashboard/${resource.link}`}
+          href={`${resource.link}`}
         >
           Create New
         </Link>
