@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     // Placeholder for sending to OpenAI DALL·E
     const headshotUrl = await generateHeadshot(buffer);
 
-    // For now, return a placeholder URL
+    // For now, return the uploaded headshotUrl
     return NextResponse.json({
       headshotUrl,
     });
